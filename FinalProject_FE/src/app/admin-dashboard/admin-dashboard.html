@@ -1,0 +1,80 @@
+<div class="admin-dashboard-wrapper">
+  <div class="filter-container">
+    <div class="filter-info">
+      <h3>User Management</h3>
+      <p>Managing {{filteredUserList.length}} total records</p>
+    </div>
+    
+    <div class="filter-controls">
+      <span class="filter-label"><i class="icon">🔍</i> Quick Filter:</span>
+      <select [(ngModel)]="filterCriteria" (change)="onFilterChange()" class="modern-select">
+        <option value="all">All Users</option>
+        <option value="active">Active Accounts</option>
+        <option value="inactive">Inactive Accounts</option>
+        <option value="managers">Hotel Managers</option>
+      </select>
+    </div>
+  </div>
+
+  <section class="user-list"> 
+    <div class="table-responsive">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Actions</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of filteredUserList; let i = index" [class.selected-row]="i === counter">
+            
+            <td><strong>{{user.name}}</strong></td>
+            <td>{{user.email}}</td>
+            <td class="role-badge">{{user.role}}</td>
+            <td>
+              <span [class]="user.isActive ? 'status-active' : 'status-inactive'">
+                {{user.isActive ? '● Active' : '● Inactive'}}
+              </span>
+            </td>
+            <td>
+              <select *ngIf="user.role === 'hotel manager'"
+                class="table-select"
+                [value]="user.isActive ? 'hotel manager' : 'inactive'"
+                (change)="updateUserStatus(user, $any($event.target).value)">
+                <option value="hotel manager">Approve</option>
+                <option value="inactive">Reject</option>
+              </select>
+
+              <button *ngIf="user.role === 'user'"
+                (click)="updateUserStatus(user, user.isActive ? 'inactive' : 'user')"
+                [class]="user.isActive ? 'btn-suspend' : 'btn-activate'">
+                {{ user.isActive ? 'Suspend' : 'Activate' }}
+              </button>
+            </td>
+            <td>
+              <button class="btn-delete-icon" (click)="confirmDelete(user)">&#x274C;</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="modal-overlay" *ngIf="showDeleteModal">
+    <div class="confirm-modal">
+      <div class="modal-icon">⚠️</div>
+      <h3>Confirm Deletion</h3>
+      <p>Are you sure you want to delete <strong>{{userToDelete?.name}}</strong>?</p>
+      <p class="warning-text">This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="btn-cancel" (click)="showDeleteModal = false">Cancel</button>
+        <button class="btn-confirm" (click)="deleteUser()">Yes, Delete User</button>
+      </div>
+    </div>
+  </div>
+</div>
