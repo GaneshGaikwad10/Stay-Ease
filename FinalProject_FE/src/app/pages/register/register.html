@@ -1,0 +1,91 @@
+<div class="register-page">
+  <div class="left-text">
+    <div class="branding-float">
+      <h1 class="logo-text">Stay Ease</h1>
+      <h2 class="subtitle">JOIN THE EXPERIENCE</h2>
+      <div class="accent-line"></div>
+      <p class="tagline">Smart Hotel Booking made simple and elegant.</p>
+      <p class="description">Create your account today and unlock seamless stays.</p>
+    </div>
+  </div>
+
+  <div class="register-form card">
+    <div *ngIf="isRegistered" class="success-prompt">
+      <div class="success-icon">✔</div>
+      <h3>Success!</h3>
+      <p>Your account is ready.</p>
+      <button (click)="goToLogin()" class="btn-primary">Proceed to Login</button>
+    </div>
+
+    <div *ngIf="!isRegistered" class="form-wrapper">
+      <h2 class="form-title">Create Account</h2>
+
+      <form [formGroup]="registerForm" (ngSubmit)="handleRegister()">
+        <div class="input-grid">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" formControlName="fullName" placeholder="Full Name" />
+          </div>
+
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" formControlName="email" placeholder="Email" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group half">
+              <label>Age</label>
+              <input type="number" formControlName="age" placeholder="18+" />
+            </div>
+            <div class="form-group half">
+              <label>Role</label>
+              <select formControlName="role">
+                <option value="" disabled>Select</option>
+                <option value="user">User</option>
+                <option value="hotel manager">Hotel Manager</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group half">
+              <label>State</label>
+              <select formControlName="state">
+                <option value="" disabled>Select State</option>
+                <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+              </select>
+            </div>
+            
+            <div class="form-group half">
+              <label>City</label>
+              <select formControlName="city">
+                <option value="" disabled>Select City</option>
+                <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="text" formControlName="phone" placeholder="10-digit phone" />
+          </div>
+
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" formControlName="password" placeholder="Min 6 characters" />
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary full-width" [disabled]="registerForm.invalid">
+          REGISTER NOW
+        </button>
+
+        <div class="back-action-container">
+          <button type="button" class="btn-back-center" (click)="goToLogin()">
+            <span class="arrow">←</span> Back to Login
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

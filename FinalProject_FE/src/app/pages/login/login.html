@@ -1,0 +1,61 @@
+<div class="login-page">
+  <div class="left-text fade-in">
+    <h1>Stay Ease</h1>
+    <h2>EXPLORE HORIZONS</h2>
+    <p class="tagline">Where your dream destinations become reality.</p>
+    <p class="description">
+      Embark on a journey where every corner of the world is within your reach.
+    </p>
+  </div>
+
+  <div class="login-form card">
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+      
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <div class="input-wrapper">
+          <span class="input-icon">✉</span>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            [(ngModel)]="email" 
+            placeholder="Enter your email" 
+            required 
+            email 
+            #emailCtrl="ngModel">
+        </div>
+        <div class="error" *ngIf="emailCtrl.invalid && emailCtrl.touched">
+          Valid email is required.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
+          <span class="input-icon">🔒</span>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            [(ngModel)]="password" 
+            placeholder="************" 
+            required 
+            minlength="6" 
+            #passwordCtrl="ngModel">
+        </div>
+        <div class="error" *ngIf="passwordCtrl.invalid && passwordCtrl.touched">
+          Password must be at least 6 characters.
+        </div>
+      </div>
+
+       <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid" style="width: 100%;">
+        SIGN IN
+      </button>
+
+      <div class="register-link" style="margin-top: 20px; text-align: center; color: white">
+        Are you new? <a routerLink="/register" style="color: var(--primary-color); font-weight: 600; text-decoration: none;">Create an Account</a>
+      </div>
+    </form>
+  </div>
+</div>
