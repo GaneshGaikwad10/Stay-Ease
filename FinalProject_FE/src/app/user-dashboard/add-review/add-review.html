@@ -1,0 +1,68 @@
+<div class="review-page">
+  <div *ngIf="completedBookings.length > 0">
+    <h2>Your Completed Hotels</h2>
+
+    <div *ngFor="let booking of completedBookings" class="card">
+      <h3>{{ booking.hotel?.name }}</h3>
+      <p><strong>Location:</strong> {{ booking.hotel?.location }}</p>
+      <p>
+        <strong>Average Rating:</strong> 
+        {{ booking.hotel?.rating | number:'1.1-1' }} &#11088;
+      </p>
+
+      <button class="btn btn-primary" (click)="toggleHotel(booking.hotel?.hotelId)">
+        {{ expandedHotelId === booking.hotel?.hotelId ? 'Close' : 'View Reviews & Rate' }}
+      </button>
+
+      <div *ngIf="expandedHotelId === booking.hotel?.hotelId" class="review-section">
+        
+        <h4>Previous Reviews</h4>
+        <div class="reviews-list">
+          <div *ngFor="let review of booking.hotel?.reviews" class="review-card">
+            <p>
+              <strong>{{ review.userName }}</strong> 
+              <span *ngIf="review.userId === userId" class="user-badge"> (Your Review)</span>
+              ({{ review.rating }}&#11088;)
+            </p>
+            <p>{{ review.reviewText }}</p>
+          </div>
+          <p *ngIf="!booking.hotel?.reviews?.length">No reviews yet for this hotel.</p>
+        </div>
+
+        <hr />
+
+        <div *ngIf="!hasUserReviewed(booking.hotel); else alreadyReviewed">
+          <h4>Add Your Review</h4>
+          <div class="stars">
+            <span
+              *ngFor="let star of [1,2,3,4,5]"
+              (click)="setRating(star)"
+              [class.filled]="star <= newRating"
+            >★</span>
+          </div>
+
+          <textarea 
+            [(ngModel)]="newReviewText" 
+            placeholder="How was your stay? Write your review here..."
+            class="review-input">
+          </textarea>
+          
+          <button class="btn btn-primary" (click)="addReview(booking.hotel!)">
+            Submit Review
+          </button>
+        </div>
+
+        <ng-template #alreadyReviewed>
+          <div class="already-reviewed-msg">
+            <p>&#9989; Review submitted. Thank you for your feedback!</p>
+          </div>
+        </ng-template>
+        
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="completedBookings.length === 0" class="no-bookings">
+    <p>You have no completed bookings available to review at this time.</p>
+  </div>
+</div>

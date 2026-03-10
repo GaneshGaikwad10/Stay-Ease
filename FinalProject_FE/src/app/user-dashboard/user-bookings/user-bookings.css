@@ -1,0 +1,80 @@
+.booking-page {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.booking-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.status.pending {
+  background-color: #fff3cd;
+  color: #664d03;
+}
+
+.status.confirmed {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
+.status.completed {
+  background-color: #e2e3e5;
+  color: #41464b;
+}
+
+.status.cancelled {
+  background-color: #f8d7da;
+  color: #842029;
+}
+
+.btn {
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.btn-outline {
+  border: 1px solid #007bff;
+  color: #007bff;
+  background: transparent;
+}
+
+.btn-danger {
+  border: none;
+  background-color: #dc3545;
+  color: white;
+}
+
+.hotel-image {
+  margin: 12px 0;
+  text-align: center;
+}
+
+.hotel-image img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}

@@ -1,0 +1,72 @@
+
+<div class="main-content">
+  <div *ngIf="step === 1" class="card glass-card">
+    <h2>Booking Summary</h2>
+    <div class="summary-details">
+      <p><strong>Check-in:</strong> {{ booking.checkInDate }}</p>
+      <p><strong>Check-out:</strong> {{ booking.checkOutDate }}</p>
+      <p><strong>Nights:</strong> {{ booking.nights }}</p>
+
+      <div *ngFor="let room of booking.rooms" class="room-line">
+        <p>{{ room.type }} × {{ room.quantity }} → ₹{{ room.price * room.quantity * booking.nights }}</p>
+      </div>
+
+      <hr>
+      <h3>Total Price: ₹{{ booking.totalPrice }}</h3>
+    </div>
+    <button class="btn-secondary" (click)="goToPayment()">Proceed to Payment</button>
+  </div>
+
+  <div *ngIf="step === 2" class="card glass-card">
+    <h2>Secure Payment</h2>
+    <form #paymentForm="ngForm" (ngSubmit)="confirmPayment(paymentForm)">
+      
+      <section>
+        <h3>Guest Details</h3>
+        <input type="text" name="name" [(ngModel)]="guest.name" required placeholder="Full Name" />
+        <input type="email" name="email" [(ngModel)]="guest.email" required placeholder="Email Address" />
+        <input type="tel" name="contact" [(ngModel)]="guest.contact" required pattern="^[0-9]{10}$" placeholder="Contact Number" />
+      </section>
+
+      <section>
+        <h3>Payment Method</h3>
+        <div class="radio-group">
+          <label><input type="radio" name="method" [(ngModel)]="payment.method" value="card" required /> Card</label>
+          <label><input type="radio" name="method" [(ngModel)]="payment.method" value="upi" required /> UPI</label>
+        </div>
+
+        <div *ngIf="payment.method === 'card'" class="card-details">
+          <input type="text" name="cardNumber" [(ngModel)]="payment.cardNumber" required pattern="^[0-9]{16}$" placeholder="16 Digit Card Number" />
+          <div class="row">
+            <input type="text" name="expiry" [(ngModel)]="payment.expiry" required placeholder="MM/YY" />
+            <input type="password" name="cvv" [(ngModel)]="payment.cvv" required minlength="3" maxlength="4" placeholder="CVV" />
+          </div>
+        </div>
+      </section>
+
+      <section class="redeem-section">
+        <h3>SmartHotel Rewards</h3>
+        <p>Available Points: <strong>{{ pointsBalance }}</strong></p>
+        
+        <div class="redeem-controls" *ngIf="!isDiscountApplied">
+          <input type="number" [(ngModel)]="redeemPoints" name="redeemPoints" min="0" [max]="pointsBalance" placeholder="Enter points" />
+          <button type="button" class="btn-secondary" (click)="applyPoints()" [disabled]="redeemPoints <= 0">Apply Points</button>
+        </div>
+
+        <div *ngIf="isDiscountApplied" class="discount-applied">
+          <p>&#x1F381; You are saving <strong>₹{{ discount }}</strong> using {{ redeemPoints }} points.</p>
+          <button type="button" style="background:none; border:none; color:red; cursor:pointer; text-decoration:underline;" (click)="removeDiscount()">Remove Discount</button>
+        </div>
+      </section>
+
+      <div class="final-total" style="text-align: right; margin-top: 20px;">
+        <p *ngIf="discount > 0" style="color: gray;"><del>Original: ₹{{ booking.totalPrice }}</del></p>
+        <h3>Payable Amount: ₹{{ finalPrice }}</h3>
+      </div>
+      
+      <button class="btn-secondary" type="submit" [disabled]="!paymentForm.valid">
+        Confirm & Pay ₹{{ finalPrice }}
+      </button>
+    </form>
+  </div>
+</div>

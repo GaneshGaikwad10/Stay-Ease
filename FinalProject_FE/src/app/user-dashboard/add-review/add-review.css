@@ -1,0 +1,40 @@
+.review-page {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.review-section {
+  margin-top: 20px;
+  padding: 16px;
+  border-top: 2px solid var(--accent-color);
+}
+
+.review-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.stars {
+  font-size: 24px;
+  color: #ccc;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.stars .filled {
+  color: #ffc107;
+}
+
+textarea {
+  width: 100%;
+  min-height: 80px;
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}

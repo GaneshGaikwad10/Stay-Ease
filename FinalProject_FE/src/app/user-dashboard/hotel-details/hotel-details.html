@@ -1,0 +1,61 @@
+<div  class="main-content">
+  <button class="btn btn-primary"  (click)="backFunc()"> Back</button>
+
+  <!-- Hotel Info -->
+  <div *ngIf="hotel" class="hotel-header card">
+    <div class="images">
+       <img [src]="'http://localhost:3000' + hotel.image" alt="{{ hotel.name }}" class="main-img" />
+    </div>
+    <div  class="info">
+      <h2>{{ hotel.name }}</h2>
+      <p>{{ hotel.location }}</p>
+      <p>	&#11088;{{ hotel.rating }}</p>
+
+      <div class="top-actions">
+        <h4>Total Price: ₹{{ totalPrice }}</h4>
+        <button class="btn btn-primary" (click)="reserveRooms()">Book Selected Rooms</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Description -->
+  <div *ngIf="hotel" class="card">
+    <h3>Description</h3>
+    <p>{{ hotel.description }}</p>
+  </div>
+
+  <!-- Amenities -->
+  <div *ngIf="hotel" class="card">
+    <h3>Amenities</h3>
+    <div class="amenities">
+      <span *ngFor="let amenity of hotel.amenities">{{ amenity }}</span>
+    </div>
+  </div>
+
+  <!-- Room Selection -->
+  <div class="card">
+    <h3>Available Rooms</h3>
+    <div class="room-list">
+      <div class="room-card card" *ngFor="let room of roomList">
+        <h4>{{ room.type }}</h4>
+        <p><strong>Features:</strong> {{ room.features.join(', ') }}</p>
+        <p><strong>Capacity:</strong> {{ room.capacityAdults }} Adults, {{ room.capacityChildren }} Children</p>
+        <p><strong>Price:</strong>&#8377;{{ room.price }}</p>
+        <p><strong>Status:</strong> {{ room.status }}</p>
+
+        <div class="quantity-control">
+          <button class="btn" (click)="decrease(room.roomId)">-</button>
+          <span>{{ room.quantity }}</span>
+          <button class="btn" (click)="increase(room.roomId)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary">
+      <h4>Total Price: ₹{{ totalPrice }}</h4>
+      <button class="btn btn-primary" (click)="reserveRooms()">Book Selected Rooms</button>
+    </div>
+  </div>
+</div>
+
+

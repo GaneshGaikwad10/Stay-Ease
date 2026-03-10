@@ -1,0 +1,74 @@
+
+:root {
+  --primary-color: #2a9d8f;   /* Ocean teal */
+  --secondary-color: #1d3557; /* Deep navy */
+  --accent-color: #f4a261;    /* Sunset gold */
+  --danger-color: #e76f51;    /* Coral red */
+  --font-family: 'Roboto', sans-serif;
+  --card-bg: rgba(255, 255, 255, 0.85);
+  --card-blur: blur(12px);
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+body {
+  font-family: var(--font-family);
+  background: linear-gradient(135deg, #f1faee, #a8dadc, #457b9d);
+  margin: 0;
+  color: var(--secondary-color);
+  overflow-x: hidden;
+}
+
+/* Buttons */
+.btn {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  color: white;
+  box-shadow: 0 0 8px rgba(42, 157, 143, 0.6);
+}
+
+.btn-danger {
+  background: linear-gradient(90deg, var(--danger-color), #ff9b7a);
+  color: white;
+  box-shadow: 0 0 8px rgba(231, 111, 81, 0.6);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+/* Cards */
+.card {
+  background: var(--card-bg);
+  backdrop-filter: var(--card-blur);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  padding: 20px;
+  margin: 16px 0;
+  border-left: 5px solid var(--accent-color);
+}
+
+/* Form Elements */
+input, select, textarea {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+  margin-bottom: 12px;
+  font-family: var(--font-family);
+}
+
+label {
+  font-weight: 500;
+  margin-bottom: 6px;
+  display: block;
+  color: var(--secondary-color);
+}

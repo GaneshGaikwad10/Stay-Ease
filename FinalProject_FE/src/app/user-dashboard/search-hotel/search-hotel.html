@@ -1,0 +1,64 @@
+<div class="dashboard">
+  <div class="main">
+    <div class="content">
+      <!-- Search Bar -->
+      <form #searchForm="ngForm" (ngSubmit)="searchHotels()">
+        <div class="search-bar card">
+          <input [(ngModel)]="destination" name="destination" required 
+                 placeholder="Enter destination" 
+                 title="Enter the city or location you want to stay" />
+
+          <input [(ngModel)]="checkIn" name="checkIn" type="date" required 
+                 [min]="todayString" 
+                 title="Select your check-in date" />
+
+          <input [(ngModel)]="checkOut" name="checkOut" type="date" required 
+                 [min]="checkIn" 
+                 title="Select your check-out date" />
+
+          <input [(ngModel)]="adults" name="adults" type="number" min="1" required 
+                 placeholder="Adults" 
+                 title="Number of adults staying" />
+
+          <input [(ngModel)]="children" name="children" type="number" min="0" required 
+                 placeholder="Children" 
+                 title="Number of children staying" />
+
+          <button class="btn btn-primary" type="submit" [disabled]="!searchForm.valid"
+                  title="Click to search hotels">
+            Search
+          </button>
+        </div>
+      </form>
+      
+      <!-- Banner -->
+      <div class="banner card">
+        <h3>Have a nice stay</h3>
+        <p>Only here book Staycation like your own home</p>
+      </div>
+
+      <!-- Recommendations -->
+      <div class="recommendations">
+        <div *ngIf="filteredHotels.length > 0" class="hotel-grid">
+          <div class="card hotel-card" *ngFor="let hotel of filteredHotels">
+            <!-- <img [src]="hotel.image" alt="{{ hotel.name }}" class="hotel-img" /> -->
+            <img [src]="'http://localhost:3000' + hotel.image" alt="{{ hotel.name }}" class="hotel-img" />
+            <h4>{{ hotel.name }}</h4>
+            <p>{{ hotel.location }}</p>
+            <p>&#8377;{{ hotel.rooms[0].price }}</p>
+            <p>&#11088;{{ hotel.rating }}</p>
+            <button class="btn btn-primary" (click)="viewHotel(hotel.hotelId)">
+              View Details
+            </button>
+          </div>
+        </div>
+
+        <!-- Hotel not found -->
+        <div *ngIf="showNoResults && searchForm.submitted" class="no-results card"> 
+          <h4>No hotels found</h4>
+          <p>Try adjusting your search criteria or check back later.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

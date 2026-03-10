@@ -1,0 +1,44 @@
+<div class="profile-container" *ngIf="selectedUser">
+  <div class="profile-card">
+    
+    <div class="profile-header">
+      <h2>Profile Settings</h2>
+      <p>Update your personal information below</p>
+    </div>
+
+    <div class="profile-form">
+      <div class="input-row">
+        <div class="field">
+          <label>Full Name</label>
+          <input type="text" [(ngModel)]="selectedUser.name" placeholder="Name">
+        </div>
+
+        <div class="field">
+          <label>Email Address</label>
+          <input type="email" [(ngModel)]="selectedUser.email" placeholder="Email">
+        </div>
+      </div>
+
+      <div class="input-row">
+        <div class="field">
+          <label>Phone Number</label>
+          <input type="text" [(ngModel)]="selectedUser.phone" placeholder="Phone">
+        </div>
+
+        <div class="field">
+          <label>Account Status</label>
+          <div class="status-badge">
+            <span [class.active-dot]="selectedUser.isActive" [class.inactive-dot]="!selectedUser.isActive"></span>
+            {{ selectedUser.isActive ? 'Active Account' : 'Inactive' }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+   <div class="profile-actions">
+     <button class="btn-update-profile" (click)="saveProfile()">
+     Update Details
+     </button>
+    </div>
+  </div>
+</div>

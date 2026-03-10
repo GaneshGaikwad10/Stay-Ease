@@ -1,0 +1,49 @@
+<div class="booking-page">
+  <h2>My Bookings</h2>
+
+  <div *ngIf="userBookings.length > 0 ">
+    <div *ngFor="let booking of userBookings" class="booking-card">
+      <div *ngIf="hotelfound">
+        <div  class="booking-header">
+          <h3>{{ booking.hotel?.name }}</h3>
+          <span class="status" [ngClass]="booking.status.toLowerCase()">
+            {{ booking.status }}
+          </span>
+        </div>
+
+        <div class="hotel-image">
+          <img [src]="'http://localhost:3000' + booking.hotel?.image" alt="{{ booking.hotel?.name }}" />
+        </div>
+
+        <div *ngFor="let room of booking.rooms">
+          <p><strong>Room:</strong> {{ room.type }} × {{ room.quantity }}</p>
+          <p>
+            <strong>Price:</strong>
+            ₹{{ room.price }} per night × {{ room.quantity }} × {{ booking.nights }} nights
+            = ₹{{ room.price * room.quantity * booking.nights }}
+          </p>
+        </div>
+
+        <p><strong>Check-in:</strong> {{ booking.checkInDate | date: 'mediumDate' }}</p>
+        <p><strong>Check-out:</strong> {{ booking.checkOutDate | date: 'mediumDate'}}</p>
+        <p><strong>Nights:</strong> {{ booking.nights }}</p>
+
+        <p><strong>Total Paid:</strong> ₹{{ booking.totalAmount }}</p>
+
+        <div class="actions">
+          <button
+            class="btn btn-danger"
+            *ngIf="booking.status === 'Confirmed'"
+            (click)="cancelBooking(booking)"
+          >
+            Cancel Booking
+          </button>
+        </div>
+      </div>
+    </div> 
+  </div>
+
+  <div *ngIf="userBookings.length === 0 && hotelfound" >
+    <p>No bookings found for your account.</p>
+  </div>
+</div>
