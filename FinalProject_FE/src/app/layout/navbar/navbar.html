@@ -1,0 +1,15 @@
+
+<nav class="navbar">
+  <div class="logo">StayEase</div>
+  <div class="user-info">
+    <img src="/assets/user.png" alt="Profile" class="profile-pic" />
+    <span class="username">{{ name }}</span>
+
+    <span *ngIf="role && role.toLowerCase() === 'user'" class="points-display">
+  &#127873; {{ pointsBalance }} pts
+    </span>
+
+
+    <button class="logout-btn" (click)="onLogout()">Logout</button>
+  </div>
+</nav>

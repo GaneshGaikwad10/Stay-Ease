@@ -1,0 +1,28 @@
+.footer {
+  bottom: 0;
+  width: 100%;
+  background: rgba(38, 70, 83, 0.85);
+  color: var(--accent-color);
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.social-links {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.footer a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer a:hover {
+  color: var(--accent-color);
+}
