@@ -1,0 +1,130 @@
+
+.rm-wrapper { 
+  max-width: 1150px; 
+  margin: 2rem auto; 
+  padding: 0 20px; 
+}
+
+.rm-header {
+  display: flex; 
+  justify-content: space-between; 
+  align-items: flex-start; 
+  margin-bottom: 30px;
+}
+
+.title { 
+  margin: 0 0 10px 0; 
+  font-weight: 800; 
+  font-size: 26px; 
+  color: var(--secondary-color);
+}
+
+.sub { 
+  margin-bottom: 8px; 
+  color: var(--secondary-color); 
+  opacity: 0.8;
+  font-size: 15px; 
+}
+
+.hl { color: var(--primary-color); font-weight: 700; }
+
+.muted-text { 
+  color: var(--secondary-color); 
+  opacity: 0.5; 
+  font-size: 13px; 
+}
+
+
+.actions { 
+  display: flex; 
+  gap: 15px; 
+  white-space: nowrap; 
+}
+
+
+.card {
+  background: var(--card-bg);
+  backdrop-filter: var(--card-blur);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  border-left: 5px solid var(--accent-color); 
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.card-head {
+  display: flex; 
+  justify-content: space-between; 
+  padding: 16px 20px; 
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+
+.rooms { width: 100%; border-collapse: collapse; }
+.rooms thead th {
+  background: rgba(0, 0, 0, 0.03);
+  font-size: 11px; 
+  color: var(--secondary-color); 
+  text-transform: uppercase; 
+  padding: 14px 20px; 
+  text-align: left;
+}
+
+.rooms td { 
+  padding: 14px 20px; 
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  color: var(--secondary-color);
+  vertical-align: middle;
+}
+
+.col-actions {
+  text-align: right;
+  white-space: nowrap; 
+  min-width: 120px;   
+}
+
+.icon-btn {
+  display: inline-flex; 
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-left: 8px;    
+  
+ 
+  background: var(--card-bg);
+  backdrop-filter: var(--card-blur);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--secondary-color);
+  transition: all 0.2s ease;
+  font-size: 16px;
+}
+
+.icon-btn.edit-btn:hover {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.icon-btn.danger:hover {
+  background: var(--danger-color);
+  color: white;
+  border-color: var(--danger-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(231, 76, 60, 0.2);
+}
+
+
+.status-dropdown { 
+  padding: 6px; 
+  border-radius: 6px; 
+  border: 1px solid rgba(0,0,0,0.1); 
+  background: rgba(255,255,255,0.5);
+}
+
+.font-bold { font-weight: 700; }
+.capacity-info span { display: block; font-size: 12px; opacity: 0.8; }

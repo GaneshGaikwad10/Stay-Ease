@@ -1,0 +1,30 @@
+
+<div class="user-dashboard">
+  <nav class="user-nav">
+    <a routerLink="overview"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{ exact: true }">&#128203; Overview</a>
+
+
+    <a routerLink="hotelprofile"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{ exact: true }">&#128736;&#65039; Hotel Profile</a>
+
+    <a routerLink="availability"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{ exact: true }">&#128197; Availability</a>
+
+    <a routerLink="bookingdetails"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{ exact: true }">&#129534; Booking Details</a>
+
+   <a routerLink="profile"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{ exact: true }">&#128100; Update Profile</a>
+  </nav>
+
+  <!-- Main content area -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

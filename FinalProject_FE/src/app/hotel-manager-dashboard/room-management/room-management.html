@@ -1,0 +1,83 @@
+
+
+
+<div class="rm-wrapper" *ngIf="hotel; else noHotel">
+  
+  <div class="rm-header">
+    <div class="header-content">
+      <h2 class="title">Room Inventory</h2>
+      <div class="sub">
+        Manage rooms for <span class="hl">{{ hotel.name }}</span> — {{ hotel.location }}
+      </div>
+      <div class="muted-text">
+        All Rooms ({{ hotel.rooms.length || 0 }}) — Overview of all rooms in your hotel
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" (click)="onBack()">← Back</button>
+      <button class="btn btn-primary" (click)="onAddRoom()">+ Add New Room</button>
+    </div>
+  </div>
+
+  <div class="glass-card">
+    <div class="card-head">
+      <div class="card-title">All Rooms</div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="rooms">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Price/Night</th>
+            <th>Capacity</th>
+            <th>Status</th>
+            <th>Features</th>
+            <th>Unavailable Dates</th>
+            <th class="col-actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of hotel.rooms">
+            <td class="font-bold">{{ r.type }}</td>
+            <td>{{ r.price | currency:'INR' }}</td>
+            <td class="capacity-cell">
+              <span>{{ r.capacityAdults }} Adults</span>
+              <span class="muted-info">{{ r.capacityChildren }} Children</span>
+            </td>
+
+            <td>
+              <select class="glass-select" [(ngModel)]="r.status" (change)="onStatusChanged(r)">
+                <option value="Available">Available</option>
+                <option value="Occupied">Occupied</option>
+                <option value="Maintenance">Maintenance</option>
+              </select>
+            </td>
+
+            <td>
+              <div class="feature-tags" *ngIf="r.features">
+                <span *ngIf="r.features.length > 0">{{ r.features[0] }}</span>
+                <span *ngIf="r.features.length > 1">, {{ r.features[1] }}</span>
+                <span class="more-count" *ngIf="r.features.length > 2"> +{{ r.features.length - 2 }} more</span>
+              </div>
+            </td>
+
+            <td class="muted-text date-text">{{ r.unavailableDates || 'None' }}</td>
+
+            <td class="col-actions">
+  <button class="icon-btn edit-btn" (click)="onEditRoom(r)" title="Edit">✎</button>
+  <button class="icon-btn danger" (click)="onDeleteRoom(r)" title="Delete">🗑</button>
+</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ng-template #noHotel>
+  <div class="empty-glass-state">
+    <div class="glass-card">Please select a hotel from the dashboard.</div>
+  </div>
+</ng-template>

@@ -1,0 +1,116 @@
+
+
+/* --- Component Layout --- */
+.hotel-card {
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+.section-header {
+  margin-bottom: 20px;
+}
+
+.section-header h2 {
+  color: var(--secondary-color);
+  margin-top: 0;
+}
+
+.section-header p {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* --- Mode Toolbar --- */
+.mode-toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.mode-toolbar .btn {
+  background: white;
+  border: 1px solid #cbd5e1;
+  color: var(--secondary-color);
+}
+
+.mode-toolbar .btn.active {
+  background: #10b981;
+  border-color: #059669;
+  color: white;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+
+/* --- Form Specifics --- */
+.form-title {
+  color: var(--primary-color);
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.form-grid {
+  display: grid;
+  gap: 16px;
+}
+
+/* --- Amenities Section --- */
+.amenity-title {
+  margin-top: 20px;
+  font-size: 1.1rem;
+}
+
+.checkbox-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.4);
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.checkbox-item {
+  display: flex !important; 
+  align-items: center;
+  gap: 8px;
+  width: auto !important; /* Prevents global width: 100% */
+  margin-bottom: 0 !important;
+  cursor: pointer;
+}
+
+.checkbox-item input {
+  width: 18px !important; /* Prevents checkbox becoming giant */
+  margin-bottom: 0 !important;
+}
+
+/* --- Actions --- */
+.actions-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn-cancel {
+  background: white;
+  border: 1px solid #ccc;
+  color: var(--secondary-color);
+}
+
+/* --- Success Alert --- */
+.success-alert {
+  position: fixed;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  background: linear-gradient(90deg, #2ecc71, #27ae60);
+  color: white;
+  padding: 16px 32px;
+  border-radius: 50px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  font-weight: 600;
+  animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+  from { top: -50px; opacity: 0; }
+  to { top: 25px; opacity: 1; }
+}

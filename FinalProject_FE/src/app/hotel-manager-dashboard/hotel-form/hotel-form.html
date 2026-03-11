@@ -1,0 +1,199 @@
+<div class="card hotel-card">
+  <div class="success-alert" *ngIf="showMsg">
+    &#9989; Hotel Saved Successfully! Redirecting...
+  </div>
+ 
+ 
+  <header class="panel-header">
+     <h1>
+        Select the Option
+    </h1>
+ 
+  </header>
+ 
+ 
+  <section class="mode-toolbar">
+ 
+  <button
+    type="button"
+    class="btn"
+    [class.active]="hotelFormMode === 'update'"
+    (click)="switchMode('update')">
+    Update Hotel
+  </button>
+ 
+ 
+ 
+ 
+   
+<button
+    type="button"
+    class="btn"
+    [class.active]="hotelFormMode === 'add'"
+    (click)="switchMode('add')">
+    + Add Hotel
+  </button>
+</section>
+ 
+ 
+  <!-- Dropdown for Update Mode -->
+  <section class="selector-row" *ngIf="hotelFormMode === 'update' && !showHotelForm">
+  <div>
+    <div class="selector-title">Select Hotel to Edit</div>
+    <select [ngModel]="selectHotelIdForEdit"
+            (ngModelChange)="onSelectHotel($event)"
+            class="selector">
+      <option value="">-- Select a hotel --</option>
+      <option *ngFor="let h of hotelsList" [value]="h.hotelId">
+        {{ h.name }} — {{ h.location }}
+      </option>
+    </select>
+  </div>
+</section>
+ 
+  <!-- HOTEL FORM -->
+  <form #f="ngForm"
+        class="form-grid"
+        *ngIf="showHotelForm"
+        (ngSubmit)="onSubmit()">
+       
+   
+<h3 class="section-title">
+    {{ hotelFormMode === 'add' ? 'Add New Hotel' : 'Update Hotel' }}
+  </h3>
+ 
+ 
+    <!-- Hotel Name -->
+    <label>
+      Hotel Name *
+      <input [(ngModel)]="formData.name"
+             name="name"
+             required
+             #name="ngModel">
+      <small class="error" *ngIf="name.invalid && name.touched">Hotel name is required.</small>
+    </label>
+ 
+ 
+ 
+   <!-- Location -->
+<label>
+  Location *
+ 
+  <!-- ADD MODE: show dropdown -->
+  <select
+    *ngIf="hotelFormMode === 'add'"
+    [(ngModel)]="formData.location"
+    name="location"
+    required
+    #locationCtrl="ngModel"
+  >
+    <option [ngValue]="null" disabled>-- Select a Location --</option>
+ 
+  
+    <option value="Tamil Nadu">Tamil Nadu</option>
+    <option value="Karnataka">Karnataka</option>
+    <option value="Kerala">Kerala</option>
+    <option value="Andhra Pradesh">Andhra Pradesh</option>
+    <option value="Telangana">Telangana</option>
+    <option value="Maharashtra">Maharashtra</option>
+  </select>
+ 
+  
+  <input
+    *ngIf="hotelFormMode === 'update'"
+    [(ngModel)]="formData.location"
+    name="location"
+    required
+    #locationCtrl="ngModel"
+    placeholder="Enter location"
+  />
+</label>
+ 
+ 
+    <!-- address -->
+    <label>
+       Full Address *
+      <textarea [(ngModel)]="formData.address"
+                name="address"
+                required
+                #addr="ngModel"></textarea>
+      <small class="error" *ngIf="addr.invalid && addr.touched">
+        Please enter the full address.
+      </small>
+    </label>
+ 
+ 
+ 
+    <!-- Description -->
+    <label>
+       Description
+      <textarea [(ngModel)]="formData.description" name="description"></textarea>
+    </label>
+ 
+ 
+<!-- Rating -->
+    <label>
+      Grade *
+  <select [(ngModel)]="formData.grade" name="grade" required #grade="ngModel">
+    <option [ngValue]="null">-- Select Grade --</option>
+    <option [ngValue]="1">1 ★</option>
+    <option [ngValue]="2">2 ★★</option>
+    <option [ngValue]="3">3 ★★★</option>
+    <option [ngValue]="4">4 ★★★★</option>
+    <option [ngValue]="5">5 ★★★★★</option>
+    <option [ngValue]="6">6 ★★★★★★</option>
+    <option [ngValue]="7">7 ★★★★★★★</option>
+  </select>
+  <small class="error" *ngIf="grade.invalid && grade.touched">
+    Grade is required.
+  </small>
+</label>
+ 
+ 
+ 
+  <!-- Hotel Image -->
+<label>
+  Hotel Image *
+ 
+  <!-- ADD (required) -->
+  <input
+    *ngIf="hotelFormMode === 'add'"
+    type="file"
+    (change)="onFileSelected($event)"
+    accept="image/*"
+    required
+  />
+ 
+ 
+  <input
+    *ngIf="hotelFormMode === 'update'"
+    type="text"
+    [value]= formData.image
+    readonly
+    class="readonly-input"
+    placeholder="No image on record"
+  />
+</label>
+ 
+ 
+ 
+ <!-- Amenities -->
+    <h3 class="section-title">Amenities</h3>
+ 
+    <div class="checkbox-list">
+      <label *ngFor="let a of amenityOptions" class="checkbox-item">
+        <input type="checkbox"
+               [checked]="formData.amenities.includes(a)"
+               (change)="toggleAmenity(a, $event.target.checked)">
+        {{ a }}
+      </label>
+    </div>
+ 
+    <!-- Actions -->
+    <div class="actions-row">
+  <button class="btn btn-primary" type="submit" ...>Save</button>
+  <button class="btn btn-secondary" type="button" ...>Cancel</button>
+</div>
+ 
+  </form>
+</div>

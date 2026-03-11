@@ -1,0 +1,68 @@
+
+<div class="container">
+  <h2 class="title">Room Availability</h2>
+
+  <div class="row horizontal">
+    <div class="field">
+      <label>Hotel:</label>
+      <select
+        [ngModel]="selectedHotel?.hotelId"
+        (ngModelChange)="onHotelChange($event)"
+      >
+        <option value="">-- Select Hotel --</option>
+        <option *ngFor="let h of hotelsList" [value]="h.hotelId">
+          {{ h.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Room:</label>
+      <select
+        [ngModel]="selectedRoom?.roomId"
+        (ngModelChange)="onRoomChange($event)"
+        [disabled]="!selectedHotel"
+      >
+        <option value="">-- Select Room --</option>
+        <option *ngFor="let r of selectedHotel?.rooms" [value]="r.roomId">
+          Room {{ r.roomId }} ({{ r.type }})
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <label>Status:</label>
+    <div class="status-options">
+      <label><input type="radio" name="status" [(ngModel)]="selectedAction" value=""/> None</label>
+      <label><input type="radio" name="status" [(ngModel)]="selectedAction" value="Available"/> Available</label>
+      <label><input type="radio" name="status" [(ngModel)]="selectedAction" value="Occupied"/> Occupied</label>
+      <label><input type="radio" name="status" [(ngModel)]="selectedAction" value="Maintenance"/> Maintenance</label>
+    </div>
+  </div>
+
+  <div class="month-nav" *ngIf="selectedRoom">
+    <button (click)="changeMonth(-1)">Prev</button>
+    <span>{{ viewDate | date: 'MMMM yyyy' }}</span>
+    <button (click)="changeMonth(1)">Next</button>
+  </div>
+
+  <div class="calendar" *ngIf="selectedRoom">
+    <ng-container *ngFor="let d of daysInMonth">
+      <div
+        class="day"
+        [ngClass]="getStatus(d).toLowerCase()"
+        (click)="toggleStatus(d)"
+        role="button"
+      >
+        <strong>{{ d }}</strong>
+        <small>{{ getStatus(d) }}</small>
+      </div>
+    </ng-container>
+  </div>
+
+  <div *ngIf="!selectedRoom" style="text-align: center; margin-top: 20px; color: #666">
+    Please select a hotel and room to manage availability.
+  </div>
+</div>
+

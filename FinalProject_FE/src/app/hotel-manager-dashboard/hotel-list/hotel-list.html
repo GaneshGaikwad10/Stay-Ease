@@ -1,0 +1,93 @@
+
+ 
+<section class="list-shell">
+  <div class="list-header">
+    <div>
+      <h2 class="section-title">All Your Hotels ({{ filteredHotels.length }})</h2>
+      <p class="section-sub">Overview of all your managed properties</p>
+    </div>
+
+    <input
+      type="search"
+      placeholder="Search hotels..."
+      [(ngModel)]="searchText"
+      class="search-box"
+    />
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-title">Total Hotels</div>
+      <div class="kpi-value">{{ hotels.length || 0 }}</div>
+      <div class="kpi-sub">Properties managed</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-title">Total Rooms</div>
+      <div class="kpi-value">{{ totalRoomsAll }}</div>
+      <div class="kpi-sub">Across all hotels</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-title">Available Rooms</div>
+      <div class="kpi-value">{{ totalAvailableAll }}</div>
+      <div class="kpi-sub">Ready for booking</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-title">Average Rating</div>
+      <div class="kpi-value">{{ averageRatingAll | number:'1.1-1' }}</div>
+      <div class="kpi-sub">Guest satisfaction</div>
+    </div>
+  </div>
+
+  <div *ngIf="filteredHotels.length === 0" class="no-results">
+    No hotels found for "{{ searchText }}".
+  </div>
+
+  <div class="hotel-grid" *ngIf="filteredHotels.length > 0">
+    <article class="hotel-card" *ngFor="let h of filteredHotels">
+      
+      <img [src]="'http://localhost:3000' + h.image" alt="hotel image">
+     
+
+      <div class="hotel-card-body">
+        <div class="title-row">
+          <div>
+            <h3 class="hotel-name">{{ h.name }}</h3>
+            <div class="hotel-location">{{ h.location }}</div>
+          </div>
+          <span class="rating-badge">★ {{ h.rating | number:'1.1-1' }}</span>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-pill">
+            <div class="stat-title">Total Rooms</div>
+            <div class="stat-value">{{ totalRooms(h) }}</div>
+          </div>
+          <div class="stat-pill available">
+            <div class="stat-title">Available</div>
+            <div class="stat-value">{{ countAvailable(h) }}</div>
+          </div>
+          <div class="stat-pill occupied">
+            <div class="stat-title">Occupied</div>
+            <div class="stat-value">{{ countOccupied(h) }}</div>
+          </div>
+        </div>
+
+        <div class="amenities" *ngIf="h.amenities && h.amenities.length">
+          <span class="amenity-chip" *ngFor="let a of h.amenities | slice:0:4">
+            {{ a }}
+          </span>
+          <span class="amenity-chip more" *ngIf="h.amenities.length > 4">
+            +{{ h.amenities.length - 4 }} more
+          </span>
+        </div>
+
+        <div class="actions">
+          <button class="manage-btn" (click)="select(h)">Manage This Hotel</button>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
