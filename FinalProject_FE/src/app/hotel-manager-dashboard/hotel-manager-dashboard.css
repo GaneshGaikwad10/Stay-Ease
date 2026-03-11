@@ -1,0 +1,48 @@
+.user-dashboard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Dashboard navigation bar */
+.user-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  background: var(--card-bg);
+  backdrop-filter: var(--card-blur);
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+}
+
+.user-nav a {
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--secondary-color);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.user-nav a:hover {
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  color: white;
+}
+
+.user-nav a.active {
+  background: linear-gradient(90deg, var(--danger-color), #ff9b7a);
+  color: white;
+}
+
+/* Main content area */
+.main-content {
+  flex: 1;
+  padding: 1.5rem;
+  background: var(--card-bg);
+  backdrop-filter: var(--card-blur);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}

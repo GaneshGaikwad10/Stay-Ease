@@ -1,0 +1,63 @@
+<div class="booking-container">
+  <h2 class="title">Booking Requests</h2>
+
+  <div class="table-responsive">
+    <table class="booking-table">
+      <thead>
+        <tr>
+          <th>Booking ID</th>
+          <th>User ID</th>
+          <th>Hotel ID</th>
+          <th>Rooms</th>
+          <th>Check-In</th>
+          <th>Check-Out</th>
+          <th>Nights</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let b of bookingDetails">
+          <td>{{ maskId(b._id) }}</td>
+          <td>{{ maskId(b.userId) }}</td>
+          <td>{{ maskId(b.hotelId) }}</td>
+
+          <td>
+            <div *ngFor="let r of b.rooms" class="room-pill">
+              {{ r.roomId }} - {{ r.type }} (x{{ r.quantity }})
+            </div>
+          </td>
+
+          <td>{{ b.checkInDate | date:'mediumDate' }}</td>
+          <td>{{ b.checkOutDate | date:'mediumDate' }}</td>
+          <td>{{ b.nights }}</td>
+
+          <td>
+            <span class="status-label" [ngClass]="b.status.toLowerCase()">
+              {{ b.status }}
+            </span>
+          </td>
+
+          <td>
+            <div class="action-buttons">
+              <button class="btn-confirm" [class.active]="b.status === 'Confirmed'" (click)="confirmStatus(b._id!)"
+                [disabled]="b.status === 'Completed' || b.status === 'Confirmed'|| b.status==='Cancelled'">
+                Confirm
+              </button>
+
+              <button class="btn-reject" [class.active]="b.status === 'Rejected'" (click)="rejectStatus(b._id!)"
+                [disabled]="b.status === 'Completed' || b.status === 'Cancelled'">
+                Reject
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="bookingDetails.length === 0" class="no-data">
+    No booking requests found.
+  </div>
+</div>

@@ -1,0 +1,100 @@
+<div class="card room-card" style="max-width: 500px; margin: 2rem auto;">
+
+  <div class="success-alert" *ngIf="showMsg">
+    &#9989; Room {{ isEdit ? 'Updated' : 'Added' }} Successfully!
+  </div>
+
+
+  <h3>{{ isEdit ? 'Edit Room' : 'Add Room' }}</h3>
+
+  <form #roomForm="ngForm" (ngSubmit)="onSubmit()">
+    <label>Room ID*</label>
+    <input [(ngModel)]="formData.roomId" name="roomId" required #rid="ngModel" [readonly]="isEdit">
+
+    <div *ngIf="rid.invalid && rid.touched">Room ID is required</div>
+
+
+    <label>Type*</label>
+    <select [(ngModel)]="formData.type" name="type" required #rType="ngModel">
+      <option value="">...Select...</option>
+      <option value="Standard">Standard</option>
+      <option value="Deluxe">Deluxe</option>
+      <option value="Executive">Executive</option>
+      <option value="Suite">Suite</option>
+    </select>
+    <div *ngIf="rType.invalid && rType.touched" class="error-text">Please select a room type</div>
+
+
+
+    <label>Price</label>
+    <input type="number" [(ngModel)]="formData.price " name="price" required #rPrice="ngModel" min="100" max="2000">
+
+    <div *ngIf="rPrice.errors?.['required'] && rPrice.touched" class="error">
+      Price is required.
+    </div>
+
+    <!-- Min Error -->
+    <div *ngIf="rPrice.errors?.['min'] && rPrice.touched" class="error">
+      Minimum allowed price is ₹100.
+    </div>
+
+    <!-- Max Error -->
+    <div class="error-text" *ngIf="rPrice.errors?.['max'] && rPrice.touched" class="error">
+      Maximum allowed price is ₹2000.
+    </div>
+
+    <!-- Adults -->
+    <label>Adults *</label>
+    <input type="number" [(ngModel)]="formData.capacityAdults" name="capacityAdults" required #rAdults="ngModel" min="1"
+      max="8" />
+    <div *ngIf="rAdults.errors?.['required'] && rAdults.touched" class="error">
+      Adults count is required.
+    </div>
+    <div *ngIf="rAdults.errors?.['min'] && rAdults.touched" class="error">
+      Minimum 1 adult required.
+    </div>
+    <div *ngIf="rAdults.errors?.['max'] && rAdults.touched" class="error">
+      Maximum allowed adults per room is 8.
+    </div>
+
+    <!-- Children -->
+    <label>Children</label>
+    <input type="number" [(ngModel)]="formData.capacityChildren" name="capacityChildren" #rChildren="ngModel" min="0"
+      max="6" />
+    <div *ngIf="rChildren.errors?.['min'] && rChildren.touched" class="error">
+      Children cannot be negative.
+    </div>
+    <div *ngIf="rChildren.errors?.['max'] && rChildren.touched" class="error">
+      Maximum allowed children per room is 6.
+    </div>
+
+
+    <label>Status</label>
+    <select [(ngModel)]="formData.status" name="status" required #rStatus="ngModel">
+      <option value="">....Select...</option>
+      <option value="Available">Available</option>
+      <option value="Occupied">Occupied</option>
+      <option value="Maintenance">Maintenance</option>
+    </select>
+    <div *ngIf="rStatus.invalid && rStatus.touched">Please select the room status</div>
+
+
+    <label>Feature 1*</label>
+    <input type="text" [(ngModel)]="formData.features[0]" name="features1" required #rFeature1="ngModel">
+    <div *ngIf="rFeature1.invalid && rFeature1.touched">Feature 1 is required</div>
+
+
+    <label>Feature 2</label>
+    <input type="text" [(ngModel)]="formData.features[1]" name='feature2' required #rFeature2="ngModel">
+    <div *ngIf="rFeature2.invalid && rFeature2.touched">Feature 2 is required</div>
+
+
+
+    <hr>
+    <div class="actions">
+      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="button" class="btn btn-secondary">Cancel</button>
+    </div>
+
+  </form>
+</div>

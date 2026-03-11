@@ -1,0 +1,42 @@
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+
+.error-text {
+  color: var(--danger-color);
+  font-size: 0.85rem;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.btn-secondary {
+  background: white;
+  border: 1px solid #ccc;
+  color: var(--secondary-color);
+}
+
+
+.success-alert {
+  position: fixed;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  background: linear-gradient(90deg, var(--primary-color), #2ecc71);
+  color: white;
+  padding: 12px 25px;
+  border-radius: 50px;
+  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+  font-weight: 600;
+  animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+  from { top: -50px; opacity: 0; }
+  to { top: 25px; opacity: 1; }
+}
