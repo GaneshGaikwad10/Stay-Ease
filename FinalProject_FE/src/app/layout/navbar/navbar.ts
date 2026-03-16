@@ -1,11 +1,13 @@
 
-import { Component } from '@angular/core';
+
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../feature/services/user.service';
 import { User } from '../../shared/model/data.interface';
 import { LoyaltyService } from '../../feature/services/loyaltyService';
 import { CommonModule } from '@angular/common';
 import { SearchCriteriaService } from '../../feature/services/search.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-navbar',
@@ -14,9 +16,8 @@ import { SearchCriteriaService } from '../../feature/services/search.service';
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.css'],
 })
-export class Navbar {
+export class Navbar implements OnInit {
   userId: string = '';
-  user: User | null = null;
   name: string = '';
   pointsBalance: number = 0;
   role: string = '';
@@ -25,42 +26,40 @@ export class Navbar {
     private userService: UserService,
     private loyaltyService: LoyaltyService,
     private router: Router,
-    private searcService: SearchCriteriaService
+    private searchService: SearchCriteriaService
   ) { }
 
-  // navbar.ts
   ngOnInit() {
     this.userId = this.userService.getLoggedUserId();
     this.role = this.userService.getRole();
 
     if (this.userId) {
-
       this.userService.getProfile().subscribe({
         next: (response: any) => {
-
           const serverRole = response.data.role;
+          
           if (serverRole !== this.role) {
-            alert('Session changed in another tab. Please login again.');
-            this.onLogout(); // This clears the session and redirects
+            alert('Session mismatch detected. Please login again.');
+            this.onLogout();
             return;
           }
 
           if (response && response.data) {
             const userData = response.data;
-            this.role = userData.role;
             this.name = userData.name;
             this.userService.setName(this.name);
 
             if (this.role?.toLowerCase() === 'user') {
-              // Initial fetch to populate the Subject
               this.loyaltyService.getPoints(this.userId).subscribe();
-
-              // Subscribe to the stream for all future updates
               this.loyaltyService.points$.subscribe(points => {
                 this.pointsBalance = points;
               });
             }
           }
+        },
+        error: (err: HttpErrorResponse) => {
+          console.error('Navbar Profile Error:', err);
+          if (err.status === 401) this.onLogout();
         }
       });
     }
@@ -68,19 +67,19 @@ export class Navbar {
 
   onLogout() {
     this.userService.logout().subscribe({
-      next: () => {
-        this.name = '';
-        this.role = '';
-        this.userId = '';
-        this.user = null;
-        this.searcService.clearCriteria();
-        this.router.navigate(['/login']);
-      },
-      error: (err) => {
+      next: () => this.handlePostLogout(),
+      error: (err: HttpErrorResponse) => {
         console.error('Logout failed:', err);
-        this.router.navigate(['/login']);
+        this.handlePostLogout();
       }
     });
   }
 
+  private handlePostLogout() {
+    this.name = '';
+    this.role = '';
+    this.userId = '';
+    this.searchService.clearCriteria();
+    this.router.navigate(['/login']);
+  }
 }

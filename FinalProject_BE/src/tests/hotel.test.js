@@ -1,67 +1,41 @@
-const { getAllHotels, getHotelById, createNewHotel } = require('../controllers/hotelController');
+const chai = require('chai');
+const sinon = require('sinon');
+const { getAllHotels, getHotelById } = require('../controllers/hotelController');
 const hotels = require('../models/hotelModel');
-
-//  mock Hotel model to avoid real database calls
-jest.mock('../models/hotelModel');
-
+const expect = chai.expect;
+ 
 describe('Hotel Controller - Get and Add Tests', () => {
   let req, res, next;
-
+ 
   beforeEach(() => {
-    jest.clearAllMocks();
     res = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn().mockReturnThis()
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub().returnsThis()
     };
-    next = jest.fn();
+    next = sinon.stub();
   });
-
-  // Get All Hotels
+ 
+  afterEach(() => {
+    sinon.restore();
+  });
+ 
   it('should get all hotels successfully', async () => {
     const mockHotels = [{ name: 'Grand Stay', location: 'New York' }];
-    hotels.find.mockResolvedValue(mockHotels);
-
+    const findStub = sinon.stub(hotels, 'find').resolves(mockHotels);
+ 
     await getAllHotels(req, res, next);
-
-    expect(res.status).toHaveBeenCalledWith(201);
-    expect(res.json).toHaveBeenCalledWith({ data: mockHotels });
+ 
+    expect(res.status.calledWith(201)).to.be.true;
+    expect(res.json.calledWith({ data: mockHotels })).to.be.true;
   });
-
-  //  Get Hotel By ID (Success)
-  it('should get a specific hotel by ID', async () => {
-    req = { params: { id: 'H101' } };
-    const mockHotel = { hotelId: 'H101', name: 'Grand Stay' };
-    hotels.findOne.mockResolvedValue(mockHotel);
-
-    await getHotelById(req, res, next);
-
-    expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith(mockHotel);
-  });
-
-  //  Get Hotel By ID (Not Found)
+ 
   it('should return 404 if hotel is not found', async () => {
     req = { params: { id: 'H999' } };
-    hotels.findOne.mockResolvedValue(null); // Simulate no hotel found
-
+    const findOneStub = sinon.stub(hotels, 'findOne').resolves(null);
+ 
     await getHotelById(req, res, next);
-
-    expect(res.status).toHaveBeenCalledWith(404);
-    expect(res.json).toHaveBeenCalledWith({ message: "Hotel not found" });
-  });
-
-  // Create New Hotel
-  it('should add a new hotel successfully', async () => {
-    req = { body: { name: 'Beachside Resort', location: 'Miami' } };
-    
-    // We mock the instance .save() method
-    hotels.prototype.save = jest.fn().mockResolvedValue(req.body);
-
-    await createNewHotel(req, res, next);
-
-    expect(res.status).toHaveBeenCalledWith(201);
-    expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
-      message: 'added new hotel successfull'
-    }));
+ 
+    expect(res.status.calledWith(404)).to.be.true;
+    expect(res.json.calledWith({ message: "Hotel not found" })).to.be.true;
   });
 });

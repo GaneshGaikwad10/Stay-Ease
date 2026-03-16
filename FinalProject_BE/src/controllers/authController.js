@@ -9,7 +9,7 @@ const asyncHandler = require('../middleware/asyncHandler.js');
 const registerUser = asyncHandler(async (req, res) => {
     const { email, role } = req.body;
     const normalizedRole = role ? role.toLowerCase() : 'user';
- 
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
         return res.status(400).json({ success: false, message: "User already exists!" });
@@ -21,14 +21,14 @@ const registerUser = asyncHandler(async (req, res) => {
     if (normalizedRole === 'hotel manager') {
         newUser.isActive = false;
     } else {
-        newUser.isActive = true; 
+        newUser.isActive = true;
     }
     await newUser.save();
- 
-    res.status(201).json({ 
-        success: true, 
-        message: "Registration successful! Awaiting approval.", 
-        data: { id: newUser._id, email: newUser.email } 
+
+    res.status(201).json({
+        success: true,
+        message: "Registration successful! Awaiting approval.",
+        data: { id: newUser._id, email: newUser.email }
     });
 });
 
@@ -45,6 +45,11 @@ const loginhandler = asyncHandler(async (req, res) => {
         return res.status(401).json({ success: false, message: "Invalid credentials" });
     }
 
+    
+    if (!user.isActive) {
+        return res.status(403).json({ success: false, message: "Account pending admin approval." });
+    }
+
     const jti = uuidv4();
     const token = jwt.sign(
         { userId: user._id, email: user.email, role: user.role, jti: jti },
@@ -52,32 +57,28 @@ const loginhandler = asyncHandler(async (req, res) => {
         { expiresIn: '1h' }
     );
 
-    // Cookie Approach: Set Secure Cookie options
-    const cookieOptions = {
-        httpOnly: true, // Prevents XSS attacks
-        expires: new Date(Date.now() + 60 * 60 * 1000), // 1 hour
-        secure: process.env.NODE_ENV === 'production', // Use secure in production
-        sameSite: 'Strict' // CSRF protection
-    };
-
-    res.status(200)
-       .cookie('token', token, cookieOptions) //  Send via cookie
-       .json({
-            success: true,
-            message: "Login successful",
-            data: { id: user._id, email: user.email, role: user.role, isActive: user.isActive }
-       });
+    res.status(200).json({
+        success: true,
+        message: "Login successful",
+        token: token, 
+        data: { id: user._id, email: user.email, role: user.role }
+    });
 });
-
-
 
 const revokeToken = asyncHandler(async (req, res) => {
-    const { jti } = req.user; 
-    await RevokedToken.create({ jti });
     
-    // Clear the cookie on logout
-    res.clearCookie('token'); 
-    res.status(200).json({ success: true, message: "Logout successful" });
+    const { jti } = req.user;
+
+    if (jti) {
+        
+        await RevokedToken.create({ jti });
+    }
+
+    
+    res.status(200).json({
+        success: true,
+        message: "Logged out successfully from server"
+    });
 });
 
-module.exports = { registerUser, loginhandler,revokeToken };
+module.exports = { registerUser, loginhandler, revokeToken };

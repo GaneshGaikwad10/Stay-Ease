@@ -3,8 +3,11 @@ const jwt = require('jsonwebtoken');
 const RevokedToken = require('../models/revokedTokenSchema');
 const asyncHandler = require('./asyncHandler');
 
+
 const verifyToken = asyncHandler(async (req, res, next) => {
-  const token = req.cookies.token;
+  
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) return res.status(403).json({ success: false, message: "No token provided" });
 

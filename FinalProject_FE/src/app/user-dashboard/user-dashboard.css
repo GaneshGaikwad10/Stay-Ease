@@ -60,7 +60,7 @@
   
   .user-nav a {
     text-align: center; /* Centers the text in the stacked buttons */
-          /* Makes buttons full width */
+          
     box-sizing: border-box;
   }
 }
