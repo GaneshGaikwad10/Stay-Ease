@@ -37,6 +37,17 @@ label {
   transition: 0.3s ease;
 }
 
+.navigation-header {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.navigation-header .btn {
+  width: auto; 
+  padding: 8px 16px;
+}
+
 .btn-primary:disabled {
   background: #ccc;
   color: #666;
@@ -116,3 +127,52 @@ label {
   cursor: not-allowed;
 }
 
+@media (max-width: 600px) {
+  .card.glass-card {
+    width: 95%;
+    margin: 10px auto;
+    padding: 15px;
+  }
+
+  .navigation-header {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .radio-group {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+  }
+
+  .radio-group label {
+    width: 100%;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  input, 
+  .redeem-section input[type="number"] {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .btn-primary, .btn-secondary {
+    padding: 14px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 400px) {
+  .card.glass-card {
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  .discount-banner {
+    font-size: 13px;
+  }
+}

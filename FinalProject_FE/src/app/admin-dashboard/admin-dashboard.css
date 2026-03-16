@@ -97,3 +97,75 @@
 .btn-suspend { background: #ff7675; border: none; color: white; padding: 5px 12px; border-radius: 4px; cursor: pointer; }
 .btn-activate { background: var(--primary-color); border: none; color: white; padding: 5px 12px; border-radius: 4px; cursor: pointer; }
 .btn-delete-icon { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #d63031; }
+
+@media (max-width: 768px) {
+  .styled-table thead {
+    display: none;
+  }
+
+  .styled-table, 
+  .styled-table tbody, 
+  .styled-table tr, 
+  .styled-table td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box; /* Ensures padding doesn't cause overflow */
+  }
+
+  .styled-table tr {
+    margin-bottom: 25px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    overflow: hidden;
+    border: 1px solid #eee;
+  }
+
+  .styled-table td {
+    display: flex; /* Changed from block to flex */
+    justify-content: space-between; /* Pushes label to left, value to right */
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid #f0f0f0;
+    min-height: 45px;
+    text-align: right;
+  }
+
+  /* Key Fix: Removing absolute positioning */
+  .styled-table td::before {
+    position: static; /* This stops the overlap */
+    font-weight: 700;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    font-size: 11px;
+    flex-shrink: 0; /* Prevents the label from getting squashed */
+    margin-right: 20px;
+  }
+
+  /* Assign labels */
+  .styled-table td:nth-of-type(1)::before { content: "User"; }
+  .styled-table td:nth-of-type(2)::before { content: "Role"; }
+  .styled-table td:nth-of-type(3)::before { content: "Status"; }
+  .styled-table td:nth-of-type(4)::before { content: "Actions"; }
+
+  /* Ensure the content on the right wraps if it's too long (like emails) */
+  .styled-table td span, 
+  .styled-table td strong {
+    font-size: 14px;
+    word-break: break-all; 
+    max-width: 60%;
+  }
+
+  .styled-table td:last-child {
+    background: #fdfdfd;
+    border-bottom: none;
+    flex-direction: column; /* Stacks buttons vertically */
+    gap: 8px;
+    padding: 15px;
+  }
+
+  .btn-suspend, .btn-activate {
+    width: 100%;
+    margin: 0;
+  }
+}

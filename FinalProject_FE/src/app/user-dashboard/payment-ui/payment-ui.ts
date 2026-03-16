@@ -33,7 +33,7 @@ export class PaymentUi implements OnInit {
     rooms: [] as any[],
     totalPrice: 0,
   };
-  
+
   payment = { method: '', cardNumber: '', expiry: '', cvv: '' };
   guest = { name: '', email: '', contact: '' };
 
@@ -46,7 +46,7 @@ export class PaymentUi implements OnInit {
     private searchCriteria: SearchCriteriaService,
     private router: Router,
     private loyaltyService: LoyaltyService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.hotelId = this.route.snapshot.paramMap.get('hotelId') || '';
@@ -99,7 +99,7 @@ export class PaymentUi implements OnInit {
     // Example: 100 points = ₹10 discount
     this.discount = this.redeemPoints / 10;
     this.isDiscountApplied = true;
-    alert(`&#127881; Potential discount of ₹${this.discount} applied! Points will be deducted upon confirmation.`);
+    alert(`🎉 Potential discount of ₹${this.discount} applied! Points will be deducted upon confirmation.`);
   }
 
   removeDiscount() {
@@ -118,9 +118,10 @@ export class PaymentUi implements OnInit {
       checkInDate: this.booking.checkInDate,
       checkOutDate: this.booking.checkOutDate,
       nights: this.booking.nights,
-      totalAmount: this.finalPrice, 
+      totalAmount: this.finalPrice,
       status: 'Pending' as const,
-      paymentId: 'PAY-' + Date.now(), 
+      paymentId: 'PAY-' + Date.now(),
+      discount: this.isDiscountApplied ? this.redeemPoints : 0
     };
 
     this.bookingService.addBooking(bookingEntry).subscribe({
@@ -144,5 +145,16 @@ export class PaymentUi implements OnInit {
         alert('Payment failed. No points were deducted.');
       }
     });
+  }
+
+  goBackToDetails() {
+
+    const hotelId = this.route.snapshot.paramMap.get('hotelId');
+    if (hotelId) {
+      this.router.navigate(['user-dashboard/hotel-details', hotelId]);
+    } else {
+      // Fallback if ID isn't in URL
+      window.history.back();
+    }
   }
 }

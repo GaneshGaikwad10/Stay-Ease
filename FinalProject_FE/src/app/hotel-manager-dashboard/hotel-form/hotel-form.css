@@ -114,3 +114,64 @@
   from { top: -50px; opacity: 0; }
   to { top: 25px; opacity: 1; }
 }
+@media (max-width: 768px) {
+  .hotel-card {
+    margin: 1rem;
+    padding: 15px;
+  }
+
+  .mode-toolbar {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mode-toolbar .btn {
+    width: 100%;
+    padding: 12px;
+  }
+
+  .checkbox-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns for checkboxes */
+    gap: 10px;
+  }
+
+  .actions-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .actions-row .btn {
+    width: 100%;
+    padding: 14px;
+  }
+
+  .success-alert {
+    width: 90%;
+    text-align: center;
+    padding: 12px 20px;
+    font-size: 14px;
+    border-radius: 12px; /* Less rounded for better screen usage */
+  }
+}
+
+@media (max-width: 480px) {
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .checkbox-list {
+    grid-template-columns: 1fr; /* Single column on very small screens */
+  }
+
+  .success-alert {
+    bottom: 20px; /* Move to bottom on mobile for easier thumb reach */
+    top: auto;
+    animation: slideUp 0.4s ease-out;
+  }
+}
+
+@keyframes slideUp {
+  from { bottom: -50px; opacity: 0; }
+  to { bottom: 20px; opacity: 1; }
+}

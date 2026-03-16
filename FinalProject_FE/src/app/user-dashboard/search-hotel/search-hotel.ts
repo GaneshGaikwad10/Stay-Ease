@@ -44,6 +44,18 @@ export class SearchHotel {
 
   const today = new Date(); 
   this.todayString = today.toISOString().split('T')[0];
+
+  const savedCriteria = this.searchCriteria.getCriteria();
+    if (savedCriteria && savedCriteria.destination) {
+      this.destination = savedCriteria.destination;
+      this.checkIn = savedCriteria.checkIn.split('T')[0]; 
+      this.checkOut = savedCriteria.checkOut.split('T')[0];
+      this.adults = savedCriteria.adults;
+      this.children = savedCriteria.children;
+      
+      
+      this.searchHotels();
+    }
 }
 
   viewHotel(id: string) {

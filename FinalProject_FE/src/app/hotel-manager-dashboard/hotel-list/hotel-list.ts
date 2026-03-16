@@ -1,5 +1,3 @@
-
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -16,13 +14,14 @@ import { UserService } from '../../feature/services/user.service';
   styleUrls: ['./hotel-list.css']
 })
 export class HotelList implements OnInit {
-  
+
   private _allHotels: Hotel[] = [];
+  today = new Date().toISOString().split("T")[0];
 
   // Aggregates
   totalRoomsAll = 0;
-  totalAvailableAll = 0;
-  totalOccupiedAll = 0;
+  totalAvailableToday = 0;
+  totalOccupiedToday = 0;
   averageRatingAll = 0;
 
   searchText: string = '';
@@ -31,7 +30,7 @@ export class HotelList implements OnInit {
     public hotelSvc: HotelService,
     public router: Router,
     public userService: UserService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadManagerHotels();
@@ -44,24 +43,24 @@ export class HotelList implements OnInit {
     this.hotelSvc.getHotelsByManagerId(managerId).subscribe({
       next: (data) => {
         this._allHotels = data || [];
-        console.log('all hotel list ',this._allHotels);
-        this.computeAggregates();  
+        console.log('all hotel list ', this._allHotels);
+        this.computeAggregates();
       },
       error: (err) => console.error('Error loading hotels:', err)
     });
   }
 
- 
+
   get hotels() {
     return this._allHotels;
   }
 
-  
+
   get filteredHotels() {
     const text = this.searchText.toLowerCase().trim();
 
-    if (!text) 
-      return this.hotels;
+    if (!text)
+      return this.hotels;//redirect to get hotels()
 
     return this.hotels.filter(h =>
       h.name.toLowerCase().includes(text) ||
@@ -69,20 +68,26 @@ export class HotelList implements OnInit {
     );
   }
 
- 
+
   private computeAggregates(): void {
     const list = this.hotels;
 
     let roomSum = 0;
-    let availableSum = 0;
-    let occupiedSum = 0;
+
+    let avail = 0;
+    let occ = 0;
+
+
     let ratingSum = 0;
     let ratingCount = 0;
 
     for (const h of list) {
       roomSum += this.totalRooms(h);
-      availableSum += this.countAvailable(h);
-      occupiedSum += this.countOccupied(h);
+
+      avail += this.countAvailableToday(h);
+      occ += this.countOccupiedToday(h);
+
+
 
       if (h.rating) {
         ratingSum += h.rating;
@@ -91,26 +96,28 @@ export class HotelList implements OnInit {
     }
 
     this.totalRoomsAll = roomSum;
-    this.totalAvailableAll = availableSum;
-    this.totalOccupiedAll = occupiedSum;
-    this.averageRatingAll =
-      ratingCount > 0 ? ratingSum / ratingCount : 0;
+    this.totalAvailableToday = avail;
+    this.totalOccupiedToday = occ;
+    this.averageRatingAll = ratingCount> 0 ? ratingSum / ratingCount : 0;
   }
 
   totalRooms(h: Hotel): number {
     return h.rooms?.length || 0;
   }
 
-  countAvailable(h: Hotel): number {
-    return h.rooms?.filter(r => r.status === 'Available').length || 0;
+
+
+
+
+  countAvailableToday(h: Hotel) {
+    return h.rooms.filter(r => !r.unavailableDates.includes(this.today)).length;
   }
 
-  countOccupied(h: Hotel): number {
-    return h.rooms?.filter(r => r.status === 'Occupied').length || 0;
+  countOccupiedToday(h: Hotel) {
+    return h.rooms.filter(r => r.unavailableDates.includes(this.today)).length;
   }
 
   select(h: Hotel): void {
     this.router.navigate(['manager-dashboard', h.hotelId, 'rooms']);
   }
 }
-

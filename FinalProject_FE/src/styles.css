@@ -10,6 +10,13 @@
   --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Prevent any accidental side-scrolling */
+}
+
 body {
   font-family: var(--font-family);
   background: linear-gradient(135deg, #f1faee, #a8dadc, #457b9d);
@@ -71,4 +78,23 @@ label {
   margin-bottom: 6px;
   display: block;
   color: var(--secondary-color);
+}
+
+/* Ensure images don't overflow on mobile */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Base Responsive Container */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 10px; /* Reduce padding on mobile to save space */
+    margin-top: 50px; /* Slightly smaller top margin */
+  }
+}
+
+.layout-wrapper {
+  width: 100%;
+  overflow-x: hidden;
 }

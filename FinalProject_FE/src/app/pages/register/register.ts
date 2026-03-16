@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../feature/services/user.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, FormsModule,NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
-import { User } from '../../shared/model/data.interface';
 import { CommonModule } from '@angular/common';
-import { v4 as uuidv4 } from 'uuid';
  
 @Component({
   selector: 'app-register',
@@ -35,13 +33,13 @@ export class Register implements OnInit {
     private router: Router
   ) {}
  
-  //  ngOnInit logic for formbuilder:
+ 
   ngOnInit() {
   this.registerForm = this.fb.group({
     fullName: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
     age: ['', [Validators.required, Validators.min(18), Validators.max(70)]],
-    state: ['', [Validators.required]], 
+    state: ['', [Validators.required]],
     city: ['', [Validators.required]],  
     role: ['', [Validators.required]],
     phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
@@ -55,12 +53,11 @@ export class Register implements OnInit {
     });
   }
 
- 
-// Getter for easy access to form fields in HTML
   get f() {
     return this.registerForm!.controls;
   }
  
+
   handleRegister() {
     if (this.registerForm.valid) {
       const formValue = this.registerForm.value;
@@ -75,17 +72,19 @@ export class Register implements OnInit {
         location: `${formValue.city}, ${formValue.state}`
       };
  
+      // Call the service and SUBSCRIBE
       this.userService.register(newUser).subscribe({
         next: (res) => {
           console.log('User registered successfully:', res);
-          this.isRegistered = true; 
-
+          this.isRegistered = true; // Shows the success message in HTML
+         
           if(res.data && res.data.id) {
-            this.userService.setLoggedUser(res.data.id);
+            this.userService.setLoggedUser(res.data.id, res.data.role);
           }
         },
         error: (err) => {
           console.error('Registration failed:', err);
+          // If user email already exists, backend sends error
           alert(err.error.message || 'Registration failed. Try again.');
         }
       });

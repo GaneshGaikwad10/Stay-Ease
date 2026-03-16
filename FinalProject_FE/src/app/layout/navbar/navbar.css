@@ -1,7 +1,9 @@
 .navbar {
  
+  position: fixed;
   top: 0;
-  width: 100%;
+  left: 0;   /* Use left and right instead of width: 100% */
+  right: 0;  
   height: 60px;
   background: linear-gradient(90deg, #2a9d8f, #264653);
   color: var(--accent-color);
@@ -12,7 +14,6 @@
   z-index: 1000;
   backdrop-filter: blur(8px);
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  position: fixed;
   display: flex;
   
 }
@@ -67,4 +68,25 @@
 .points-btn:hover {
   background-color: #e68900;  
   transform: scale(1.05);      
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 10px; /* Reduce side padding */
+    justify-content: space-between;
+  }
+
+  .logout-btn {
+    margin-right: 10px; /* Bring the button back inside the screen */
+    padding: 6px 10px;  /* Make it slightly smaller */
+    font-size: 12px;
+  }
+  
+  .user-info {
+    gap: 8px; /* Tighten the space between points and logout */
+  }
+
+  .logo {
+    font-size: 18px; /* Smaller logo so it doesn't push items right */
+  }
 }

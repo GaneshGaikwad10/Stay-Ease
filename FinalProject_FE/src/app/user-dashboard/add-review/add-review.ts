@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Booking, Hotel } from '../../shared/model/data.interface';
 import { BookingService } from '../../feature/services/booking.service copy';
 import { HotelService } from '../../feature/services/hotel.service copy';
@@ -7,6 +7,7 @@ import { UserService } from '../../feature/services/user.service';
 import { ReviewService } from '../../feature/services/review.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LoyaltyService } from '../../feature/services/loyaltyService';
 
 @Component({
   selector: 'app-add-review',
@@ -15,7 +16,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './add-review.html',
   styleUrls: ['./add-review.css'],
 })
-export class AddReview {
+export class AddReview implements OnInit {
   completedBookings: (Booking & { hotel?: Hotel })[] = [];
   expandedHotelId: string | null = null;
 
@@ -27,30 +28,44 @@ export class AddReview {
     private bookingService: BookingService,
     private hotelService: HotelService,
     private userService: UserService,
-    private reviewService: ReviewService
-  ) {}
+    private reviewService: ReviewService,
+    private loyaltyService: LoyaltyService
+  ) { }
 
   ngOnInit() {
     this.userId = this.userService.getLoggedUserId();
 
-    // Fetch bookings from backend
     this.bookingService.getBookingsByUser(this.userId).subscribe({
       next: (bookings: Booking[]) => {
+        // 1. Get only completed bookings
         const completed = bookings.filter(b => b.status.toLowerCase() === 'completed');
 
+        // 2. Use a Set or a Map to keep track of unique hotelIds we've already added
+        const seenHotels = new Set<string>();
+
         completed.forEach(b => {
-          this.hotelService.getHotelById(b.hotelId).subscribe(hotel => {
-            // Fetch reviews for this hotel
-            this.reviewService.getReviewsByHotel(hotel.hotelId).subscribe(res => {
-              hotel.reviews = res.reviews;
-              hotel.rating = res.rating;
-              this.completedBookings.push({ ...b, hotel });
+          // Only proceed if we haven't processed this hotel yet
+          if (!seenHotels.has(b.hotelId)) {
+            seenHotels.add(b.hotelId);
+
+            this.hotelService.getHotelById(b.hotelId).subscribe(hotel => {
+              this.reviewService.getReviewsByHotel(hotel.hotelId).subscribe(res => {
+                hotel.reviews = res.reviews;
+                hotel.rating = res.rating;
+                this.completedBookings.push({ ...b, hotel });
+              });
             });
-          });
+          }
         });
       },
       error: err => console.error('Failed to fetch bookings', err)
     });
+  }
+
+  getButtonText(hotel: Hotel | undefined): string {
+    if (!hotel) return 'Details';
+    if (this.expandedHotelId === hotel.hotelId) return 'Close';
+    return this.hasUserReviewed(hotel) ? 'View Your Review' : 'Rate Your Stay';
   }
 
   toggleHotel(hotelId: string | undefined) {
@@ -66,7 +81,6 @@ export class AddReview {
 
   hasUserReviewed(hotel: Hotel | undefined): boolean {
     if (!hotel || !hotel.reviews) return false;
-    // Check if any review in the hotel's review list matches the current userId
     return hotel.reviews.some((review: any) => review.userId === this.userId);
   }
 
@@ -78,7 +92,7 @@ export class AddReview {
 
     const payload = {
       userId: this.userId,
-      userName: this.userService.getName(), 
+      userName: this.userService.getName(),
       hotelId: hotel.hotelId,
       reviewText: this.newReviewText,
       rating: this.newRating
@@ -86,18 +100,14 @@ export class AddReview {
 
     this.reviewService.addReview(payload).subscribe({
       next: (res) => {
-        
         hotel.reviews = res.reviews || [...(hotel.reviews || []), res.review];
         hotel.rating = res.updatedHotelRating;
-
         this.newReviewText = '';
         this.newRating = 0;
-
-        alert(`Review added successfully for ${hotel.name}! &#127881; You earned ${res.pointsEarned} points. Total: ${res.totalPoints}`);
+        this.loyaltyService.addPoints(this.userId, 50).subscribe();
+        alert(`Review added successfully for ${hotel.name}!`);
       },
-      error: (err) => {
-        alert(err.error?.message || 'Could not add review. Please try again.');
-      }
+      error: (err) => alert(err.error?.message || 'Error adding review.')
     });
   }
 }

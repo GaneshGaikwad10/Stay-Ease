@@ -40,3 +40,22 @@
   from { top: -50px; opacity: 0; }
   to { top: 25px; opacity: 1; }
 }
+
+.features-row {
+  display: flex;
+  flex-direction: column; /* stack each feature item downwards */
+  gap: 6px;
+}
+ 
+.feat-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: fit-content;      /* prevents stretching to right side */
+}
+ 
+.feat-item label {
+  margin: 0 !important;
+  white-space: nowrap;     /* keeps the label beside checkbox */
+}

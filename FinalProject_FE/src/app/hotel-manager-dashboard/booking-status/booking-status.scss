@@ -75,3 +75,77 @@ button:disabled {
   cursor: not-allowed;
   filter: grayscale(1);
 }
+
+@media (max-width: 768px) {
+  /* 1. Header Card Fix */
+  div:has(h2) {
+    margin: 10px;
+    padding: 15px;
+  }
+
+  /* 2. Table to Card Transformation */
+  table thead {
+    display: none;
+  }
+
+  table, tbody, tr, td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  tr {
+    margin-bottom: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+    overflow: hidden;
+  }
+
+  td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid #f9f9f9;
+  }
+
+  /* 3. Button Container Fix */
+  td div:has(button) {
+    width: 100%;
+    flex-direction: row; /* Keep them side-by-side or use column if too many */
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .confirm-btn, .reject-btn {
+    flex: 1; /* Makes both buttons equal width on mobile */
+    text-align: center;
+    padding: 10px 5px;
+    font-size: 13px;
+  }
+
+  /* 4. Labels for Approval Table */
+  td::before {
+    content: attr(data-label); /* Use data-label if you can, otherwise use nth-of-type */
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 11px;
+    color: var(--secondary-color);
+    opacity: 0.7;
+  }
+
+  /* If you can't use data-label, use these: */
+  td:nth-of-type(1)::before { content: "Guest"; }
+  td:nth-of-type(2)::before { content: "Room"; }
+  td:nth-of-type(3)::before { content: "Date"; }
+  td:nth-of-type(4)::before { content: "Action"; }
+
+  /* Ensure the last cell (buttons) has no bottom border */
+  td:last-child {
+    border-bottom: none;
+    background: #fafafa;
+    padding: 15px;
+  }
+}

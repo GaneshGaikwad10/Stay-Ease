@@ -47,13 +47,6 @@
               <span class="muted-info">{{ r.capacityChildren }} Children</span>
             </td>
 
-            <td>
-              <select class="glass-select" [(ngModel)]="r.status" (change)="onStatusChanged(r)">
-                <option value="Available">Available</option>
-                <option value="Occupied">Occupied</option>
-                <option value="Maintenance">Maintenance</option>
-              </select>
-            </td>
 
             <td>
               <div class="feature-tags" *ngIf="r.features">

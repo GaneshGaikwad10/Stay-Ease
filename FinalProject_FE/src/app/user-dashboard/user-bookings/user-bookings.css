@@ -1,80 +1,317 @@
+/* --- LAYOUT & CONTAINER --- */
 .booking-page {
-  padding: 20px;
-  max-width: 800px;
+  padding: 40px 20px;
+  max-width: 1100px;
   margin: auto;
+  min-height: 100vh;
 }
 
-.booking-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 20px;
-  background: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
-
-.booking-header {
+.header-flex {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
-.status {
-  padding: 4px 10px;
+.page-title {
+  color: var(--secondary-color);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+  border-left: 6px solid var(--primary-color);
+  padding-left: 15px;
+}
+
+/* --- FILTER TABS --- */
+.filter-tabs {
+  display: flex;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  padding: 6px;
+  border-radius: 50px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tab {
+  padding: 10px 22px;
+  cursor: pointer;
+  border-radius: 40px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--secondary-color);
+}
+
+.tab:hover {
+  background: rgba(42, 157, 143, 0.1);
+}
+
+.tab.active {
+  background: var(--secondary-color);
+  color: white;
+  box-shadow: 0 4px 12px rgba(29, 53, 87, 0.3);
+}
+
+/* --- TABLE HEADER (Desktop Only) --- */
+.booking-table-header {
+  display: grid;
+  grid-template-columns: 2.5fr 1.5fr 1fr 1fr 1.8fr;
+  padding: 15px 25px;
+  color: var(--secondary-color);
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.8;
+}
+
+/* --- BOOKING ROW CARDS --- */
+.booking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.booking-row-card {
+  background: var(--card-bg);
+  backdrop-filter: var(--card-blur);
   border-radius: 12px;
-  font-size: 12px;
-  font-weight: bold;
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.booking-row-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.booking-grid-layout {
+  display: grid;
+  grid-template-columns: 2.5fr 1.5fr 1fr 1fr 1.8fr;
+  align-items: center;
+  padding: 20px 25px;
+}
+
+/* --- COLUMN CONTENT STYLING --- */
+.col-hotel {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.mini-thumb {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hotel-name {
+  display: block;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--secondary-color);
+}
+
+.stay-date {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 3px;
+  display: block;
+}
+
+.room-text {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.nights-tag {
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 0.75rem;
   text-transform: uppercase;
 }
 
-.status.pending {
-  background-color: #fff3cd;
-  color: #664d03;
+.amount {
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--secondary-color);
 }
 
-.status.confirmed {
-  background-color: #d1e7dd;
-  color: #0f5132;
+/* --- STATUS PILLS --- */
+.status-pill {
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  display: inline-block;
+  text-align: center;
+  min-width: 90px;
 }
 
-.status.completed {
-  background-color: #e2e3e5;
-  color: #41464b;
-}
-
-.status.cancelled {
-  background-color: #f8d7da;
-  color: #842029;
-}
-
-.btn {
-  padding: 8px 12px;
-  border-radius: 6px;
-  margin-right: 10px;
-  cursor: pointer;
-}
-
-.btn-outline {
-  border: 1px solid #007bff;
-  color: #007bff;
-  background: transparent;
-}
-
-.btn-danger {
-  border: none;
-  background-color: #dc3545;
+.status-pill.confirmed {
+  background-color: var(--primary-color);
   color: white;
 }
 
-.hotel-image {
-  margin: 12px 0;
-  text-align: center;
+.status-pill.cancelled, 
+.status-pill.rejected {
+  background-color: var(--danger-color);
+  color: white;
 }
 
-.hotel-image img {
-  width: 100%;
-  max-height: 200px;
-  object-fit: cover;
+.status-pill.completed {
+  background-color: #bdc3c7;
+  color: white;
+}
+
+/* --- ACTIONS & NOTES --- */
+.btn-sm {
+  padding: 8px 16px;
+  font-size: 0.8rem;
+  width: auto;
+}
+
+.refund-note {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #721c24;
+  background: #f8d7da;
+  padding: 10px;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border-left: 4px solid var(--danger-color);
+  line-height: 1.4;
+}
+
+/* --- CONDITIONAL BORDERS --- */
+.booking-row-card:has(.confirmed) { border-left: 6px solid var(--primary-color); }
+.booking-row-card:has(.cancelled), 
+.booking-row-card:has(.rejected) { border-left: 6px solid var(--danger-color); }
+
+/* --- RESPONSIVE DESIGN --- */
+@media (max-width: 992px) {
+  .booking-table-header {
+    display: none;
+  }
+
+  .booking-grid-layout {
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+  }
+
+  .col-hotel {
+    grid-column: span 2;
+  }
+
+  .col-actions {
+    grid-column: span 2;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    padding-top: 15px;
+  }
+}
+
+@media (max-width: 600px) {
+  .header-flex {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .booking-grid-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .col-hotel, .col-rooms, .col-price, .col-status, .col-actions {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 992px) {
+  .booking-table-header {
+    display: none;
+  }
+
+  .booking-grid-layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 20px;
+  }
+
+  .col-hotel {
+    grid-column: span 2;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding-bottom: 12px;
+  }
+
+  .col-actions {
+    grid-column: span 2;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .booking-page {
+    padding: 20px 15px;
+  }
+
+  .filter-tabs {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-radius: 12px;
+    justify-content: flex-start;
+    padding: 10px;
+  }
+
+  .tab {
+    padding: 8px 16px;
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .header-flex {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .booking-grid-layout {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .col-hotel, .col-rooms, .col-price, .col-status, .col-actions {
+    grid-column: span 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .col-hotel {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .amount {
+    font-size: 1rem;
+  }
+
+  .btn-sm {
+    width: 100%;
+    text-align: center;
+  }
 }

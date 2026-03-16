@@ -88,3 +88,65 @@
   font-size: 14px;
   color: var(--secondary-color);
 }
+
+
+@media (max-width: 768px) {
+  /* 1. Stack the Hotel Image and the Info box */
+  .hotel-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .images, .info {
+    flex: none;
+    width: 100%;
+  }
+
+  .main-img {
+    height: 200px; /* Reduce height slightly for mobile screens */
+  }
+
+  /* 2. Center the Summary and Action Buttons */
+  .summary {
+    text-align: center; /* Better than right-align on small screens */
+    margin-top: 30px;
+    padding: 15px;
+    background: rgba(42, 157, 143, 0.1); /* Subtle highlight for total price */
+    border-radius: 8px;
+  }
+
+  /* 3. Improve Room Cards for touch */
+  .room-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .quantity-control {
+    justify-content: center; /* Center the +/- buttons */
+    width: 100%;
+    padding: 5px;
+  }
+
+  .quantity-control button {
+    padding: 10px 20px; /* Make buttons larger for easier tapping */
+  }
+
+  /* 4. Top Actions (Booking dates/Filters) */
+  .top-actions {
+    grid-template-columns: 1fr; /* Force single column */
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .amenities {
+    justify-content: center; /* Center the amenity tags on tiny screens */
+  }
+  
+  .amenities span {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+}

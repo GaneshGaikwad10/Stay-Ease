@@ -47,6 +47,7 @@ export interface Booking {
   totalAmount: number;
   status: 'Pending' | 'Confirmed' | 'Completed' | 'Cancelled' | 'Rejected';
   paymentId: string | null;
+  discount?: number;
 }
 
 

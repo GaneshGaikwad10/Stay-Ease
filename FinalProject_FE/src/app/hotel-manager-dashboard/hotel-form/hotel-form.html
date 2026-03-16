@@ -75,39 +75,20 @@
  
  
  
-   <!-- Location -->
+ 
+ 
 <label>
   Location *
- 
-  <!-- ADD MODE: show dropdown -->
-  <select
-    *ngIf="hotelFormMode === 'add'"
-    [(ngModel)]="formData.location"
-    name="location"
-    required
-    #locationCtrl="ngModel"
-  >
-    <option [ngValue]="null" disabled>-- Select a Location --</option>
- 
-  
-    <option value="Tamil Nadu">Tamil Nadu</option>
-    <option value="Karnataka">Karnataka</option>
-    <option value="Kerala">Kerala</option>
-    <option value="Andhra Pradesh">Andhra Pradesh</option>
-    <option value="Telangana">Telangana</option>
-    <option value="Maharashtra">Maharashtra</option>
-  </select>
- 
-  
   <input
-    *ngIf="hotelFormMode === 'update'"
+    type="text"
     [(ngModel)]="formData.location"
     name="location"
     required
     #locationCtrl="ngModel"
-    placeholder="Enter location"
+    placeholder="Enter Indian State "
   />
 </label>
+ 
  
  
     <!-- address -->
@@ -191,8 +172,9 @@
  
     <!-- Actions -->
     <div class="actions-row">
-  <button class="btn btn-primary" type="submit" ...>Save</button>
-  <button class="btn btn-secondary" type="button" ...>Cancel</button>
+  <button
+  class="btn btn-primary"  type="submit" [disabled]="f.invalid"> Save Hotel </button>
+  <button class="btn btn-secondary" type="button"  (click)="onCancel()"...>Cancel</button>
 </div>
  
   </form>

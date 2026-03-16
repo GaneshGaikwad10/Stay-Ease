@@ -17,6 +17,7 @@ import { DatePipe } from '@angular/common';
 export class UserBookings {
   userBookings: (Booking & { hotel?: Hotel })[] = [];
   hotelfound: boolean = false;
+  currentFilter: string = 'All'; // Track active tab
 
   constructor(
     private bookingService: BookingService,
@@ -88,5 +89,22 @@ export class UserBookings {
     } else {
       alert('Bookings can only be cancelled up to 24 hours before check-in.');
     }
+  }
+
+  get filteredBookings() {
+    if (this.currentFilter === 'All') return this.userBookings;
+    
+    const today = new Date();
+    if (this.currentFilter === 'Upcoming') {
+      return this.userBookings.filter(b => new Date(b.checkInDate) >= today && b.status !== 'Cancelled' && b.status!=='Rejected');
+    }
+    if (this.currentFilter === 'Past') {
+      return this.userBookings.filter(b => new Date(b.checkOutDate) < today || b.status === 'Cancelled');
+    }
+    return this.userBookings;
+  }
+
+  setFilter(filter: string) {
+    this.currentFilter = filter;
   }
 }

@@ -1,40 +1,207 @@
-.review-page {
-  padding: 20px;
-  max-width: 900px;
-  margin: auto;
+.review-page-container {
+  max-width: 700px; /* Limits the horizontal stretch */
+  margin: 40px auto;
+  padding: 0 20px;
 }
 
-.review-section {
-  margin-top: 20px;
-  padding: 16px;
-  border-top: 2px solid var(--accent-color);
+.review-header {
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.review-header p {
+  margin-top: 5px;
+  color: var(--secondary-color);
+  opacity: 0.8;
+}
+
+.cards-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .review-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  margin: 0 !important;
+  transition: transform 0.2s ease;
+  border-left: 5px solid var(--accent-color);
+}
+
+.card-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.hotel-info h3 {
+  font-size: 1.2rem;
+  margin: 0 0 5px 0;
+  color: var(--secondary-color);
+}
+
+.location-sub {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.rating-pill {
+  display: inline-block;
+  background: var(--secondary-color);
+  color: white;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Review Drawer Styling */
+.review-drawer {
+  margin-top: 20px;
+  padding: 10px 5px;
+  animation: slideDown 0.3s ease-out;
+}
+
+.section-divider {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin-bottom: 20px;
+}
+
+.mini-review-card {
+  background: white;
+  border: 1px solid rgba(0,0,0,0.05);
   padding: 12px;
+  border-radius: 8px;
   margin-bottom: 12px;
-  background: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
 
-.stars {
-  font-size: 24px;
-  color: #ccc;
-  cursor: pointer;
-  margin-bottom: 10px;
+.user-own-review {
+  border-left: 4px solid var(--primary-color) !important;
+  background: #f1faee !important; /* Light teal tint */
 }
 
-.stars .filled {
-  color: #ffc107;
+.review-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
 }
 
-textarea {
+.review-rating {
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+.w-100 {
   width: 100%;
-  min-height: 80px;
-  margin-bottom: 10px;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
+}
+
+/* Star Picker Styling */
+.star-rating {
+  font-size: 28px;
+  margin-bottom: 15px;
+  color: #ccc;
+}
+
+.star {
+  cursor: pointer;
+  padding: 0 2px;
+  transition: color 0.2s;
+}
+
+.star.filled {
+  color: var(--accent-color);
+}
+
+.already-reviewed-msg {
+  padding: 20px;
+  color: var(--primary-color);
+  font-weight: 600;
+  text-align: center;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .card-header-flex {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .action-btn-wrapper {
+    width: 100%;
+  }
+  .btn-primary {
+    width: 100%;
+  }
+}
+@media (max-width: 768px) {
+  .review-page-container {
+    margin: 20px auto;
+    padding: 0 15px;
+  }
+
+  .review-header {
+    text-align: center;
+  }
+
+  .hotel-info h3 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .card-header-flex {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .rating-pill {
+    margin-top: 5px;
+  }
+
+  .review-drawer {
+    padding: 15px 0;
+  }
+
+  .review-meta {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .star-rating {
+    font-size: 32px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-primary, 
+  .w-100 {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+  }
+
+  .mini-review-card {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 400px) {
+  .review-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .star-rating {
+    font-size: 36px; 
+  }
 }

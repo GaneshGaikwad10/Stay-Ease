@@ -121,3 +121,39 @@
   border: 1px solid rgba(255,255,255,0.3);
   color: var(--danger-color);
 }
+
+@media (max-width: 600px) {
+  .search-bar {
+    flex-direction: column; /* Stacks the input and the search button */
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .search-bar input {
+    width: 100%; /* Ensures the search box fills the screen width */
+    margin-bottom: 0; /* Adjust spacing since gap is now handling it */
+  }
+
+  .search-bar button {
+    width: 100%; /* Makes the search button easy to tap on mobile */
+  }
+  .banner {
+    padding: 0.8rem;
+    font-size: 0.9rem; /* Slightly smaller text for mobile */
+  }
+  .search-bar button {
+    height: 48px; /* Standard mobile touch target size */
+  }
+}
+
+@media (max-width: 480px) {
+  .hotel-grid {
+    grid-template-columns: 1fr; /* One single column of hotels on tiny screens */
+  }
+  
+  .hotel-card {
+    align-items: center;
+    text-align: center;
+  }
+  
+}

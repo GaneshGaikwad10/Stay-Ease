@@ -1,68 +1,76 @@
-<div class="review-page">
-  <div *ngIf="completedBookings.length > 0">
-    <h2>Your Completed Hotels</h2>
+<div class="review-page-container">
+  <div class="review-header">
+    <h2 style="color: var(--secondary-color);">Your Completed Stays</h2>
+    <p>Help others by sharing your experience!</p>
+  </div>
 
-    <div *ngFor="let booking of completedBookings" class="card">
-      <h3>{{ booking.hotel?.name }}</h3>
-      <p><strong>Location:</strong> {{ booking.hotel?.location }}</p>
-      <p>
-        <strong>Average Rating:</strong> 
-        {{ booking.hotel?.rating | number:'1.1-1' }} &#11088;
-      </p>
-
-      <button class="btn btn-primary" (click)="toggleHotel(booking.hotel?.hotelId)">
-        {{ expandedHotelId === booking.hotel?.hotelId ? 'Close' : 'View Reviews & Rate' }}
-      </button>
-
-      <div *ngIf="expandedHotelId === booking.hotel?.hotelId" class="review-section">
-        
-        <h4>Previous Reviews</h4>
-        <div class="reviews-list">
-          <div *ngFor="let review of booking.hotel?.reviews" class="review-card">
-            <p>
-              <strong>{{ review.userName }}</strong> 
-              <span *ngIf="review.userId === userId" class="user-badge"> (Your Review)</span>
-              ({{ review.rating }}&#11088;)
-            </p>
-            <p>{{ review.reviewText }}</p>
-          </div>
-          <p *ngIf="!booking.hotel?.reviews?.length">No reviews yet for this hotel.</p>
+  <div *ngIf="completedBookings.length > 0" class="cards-stack">
+    <div *ngFor="let booking of completedBookings" class="card review-card">
+      <div class="card-header-flex">
+        <div class="hotel-info">
+          <h3>{{ booking.hotel?.name }}</h3>
+          <p class="location-sub">
+            <span class="symbol">&#128205;</span> {{ booking.hotel?.location }}
+          </p>
+          <span class="rating-pill">
+            {{ booking.hotel?.rating | number:'1.1-1' }} &#11088;
+          </span>
         </div>
 
-        <hr />
+        <div class="action-btn-wrapper">
+          <button class="btn btn-primary" (click)="toggleHotel(booking.hotel?.hotelId)">
+            {{ getButtonText(booking.hotel) }}
+          </button>
+        </div>
+      </div>
 
-        <div *ngIf="!hasUserReviewed(booking.hotel); else alreadyReviewed">
+      <div *ngIf="expandedHotelId === booking.hotel?.hotelId" class="review-drawer">
+        <hr class="section-divider">
+        
+        <div class="previous-reviews">
+          <h4>Guest Reviews</h4>
+          <div *ngFor="let review of booking.hotel?.reviews" 
+               class="mini-review-card"
+               [class.user-own-review]="review.userId === userId">
+            <div class="review-meta">
+              <strong>{{ review.userName }}</strong>
+              <span class="review-rating">{{ review.rating }}&#9733;</span>
+            </div>
+            <p class="review-text">{{ review.reviewText }}</p>
+          </div>
+          <p *ngIf="!booking.hotel?.reviews?.length" class="empty-msg">No reviews yet.</p>
+        </div>
+
+        <div class="add-review-form" *ngIf="!hasUserReviewed(booking.hotel); else alreadyReviewed">
           <h4>Add Your Review</h4>
-          <div class="stars">
-            <span
-              *ngFor="let star of [1,2,3,4,5]"
-              (click)="setRating(star)"
-              [class.filled]="star <= newRating"
-            >★</span>
+          <div class="star-rating">
+            <span *ngFor="let star of [1,2,3,4,5]"
+                  (click)="setRating(star)"
+                  [class.filled]="star <= newRating"
+                  class="star">&#9733;</span>
           </div>
 
           <textarea 
             [(ngModel)]="newReviewText" 
-            placeholder="How was your stay? Write your review here..."
-            class="review-input">
+            placeholder="How was your stay?" 
+            rows="3">
           </textarea>
           
-          <button class="btn btn-primary" (click)="addReview(booking.hotel!)">
+          <button class="btn btn-primary w-100" (click)="addReview(booking.hotel!)">
             Submit Review
           </button>
         </div>
 
         <ng-template #alreadyReviewed>
           <div class="already-reviewed-msg">
-            <p>&#9989; Review submitted. Thank you for your feedback!</p>
+            <p>&#9989; Review submitted. Thank you!</p>
           </div>
         </ng-template>
-        
       </div>
     </div>
   </div>
 
-  <div *ngIf="completedBookings.length === 0" class="no-bookings">
-    <p>You have no completed bookings available to review at this time.</p>
+  <div *ngIf="completedBookings.length === 0" class="no-bookings card">
+    <p>No stays available to review.</p>
   </div>
 </div>

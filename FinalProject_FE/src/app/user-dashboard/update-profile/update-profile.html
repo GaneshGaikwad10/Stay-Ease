@@ -1,44 +1,71 @@
 <div class="profile-container" *ngIf="selectedUser">
   <div class="profile-card">
-    
     <div class="profile-header">
       <h2>Profile Settings</h2>
       <p>Update your personal information below</p>
     </div>
-
+ 
     <div class="profile-form">
       <div class="input-row">
         <div class="field">
           <label>Full Name</label>
-          <input type="text" [(ngModel)]="selectedUser.name" placeholder="Name">
+          <input type="text" [(ngModel)]="selectedUser.name" placeholder="Name" />
         </div>
-
-        <div class="field">
-          <label>Email Address</label>
-          <input type="email" [(ngModel)]="selectedUser.email" placeholder="Email">
-        </div>
+ 
+<div class="field">
+  <label>Email Address</label>
+  <input type="email" [(ngModel)]="selectedUser.email" placeholder="Email" name="email" />
+ 
+  <small
+    *ngIf="selectedUser.email && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/.test(selectedUser.email)"
+    style="color: #e74c3c; font-size: 12px; margin-top: 5px; display: block"
+  >
+    * Please enter a valid email format (e.g., .com, .org).
+  </small>
+</div>
       </div>
-
+ 
       <div class="input-row">
         <div class="field">
           <label>Phone Number</label>
-          <input type="text" [(ngModel)]="selectedUser.phone" placeholder="Phone">
+          <input
+            type="text"
+            [(ngModel)]="selectedUser.phone"
+            placeholder="10-digit Phone Number"
+            name="phone"
+            #phoneInput="ngModel"
+          />
+ 
+          <small
+            *ngIf="selectedUser.phone && !/^[0-9]{10}$/.test(selectedUser.phone.toString())"
+            style="color: #e74c3c; font-size: 12px; margin-top: 5px; display: block"
+          >
+            * Must be exactly 10 digits.
+          </small>
         </div>
-
+ 
         <div class="field">
           <label>Account Status</label>
           <div class="status-badge">
-            <span [class.active-dot]="selectedUser.isActive" [class.inactive-dot]="!selectedUser.isActive"></span>
+            <span
+              [class.active-dot]="selectedUser.isActive"
+              [class.inactive-dot]="!selectedUser.isActive"
+            ></span>
             {{ selectedUser.isActive ? 'Active Account' : 'Inactive' }}
           </div>
         </div>
       </div>
     </div>
-
-   <div class="profile-actions">
-     <button class="btn-update-profile" (click)="saveProfile()">
-     Update Details
-     </button>
-    </div>
+ 
+<div class="profile-actions">
+  <button
+    class="btn-update-profile"
+    (click)="saveProfile()"
+    [disabled]="!selectedUser.name || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/.test(selectedUser.email) || selectedUser.phone.toString().length !== 10"
+    [style.opacity]="(!selectedUser.name || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/.test(selectedUser.email) || selectedUser.phone.toString().length !== 10) ? '0.5' : '1'">
+    Update Details
+  </button>
+</div>
   </div>
 </div>
+ 

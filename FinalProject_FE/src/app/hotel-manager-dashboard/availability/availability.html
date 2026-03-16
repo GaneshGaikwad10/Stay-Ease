@@ -1,7 +1,6 @@
-
 <div class="container">
   <h2 class="title">Room Availability</h2>
-
+ 
   <div class="row horizontal">
     <div class="field">
       <label>Hotel:</label>
@@ -15,7 +14,7 @@
         </option>
       </select>
     </div>
-
+ 
     <div class="field">
       <label>Room:</label>
       <select
@@ -30,7 +29,7 @@
       </select>
     </div>
   </div>
-
+ 
   <div class="row">
     <label>Status:</label>
     <div class="status-options">
@@ -40,13 +39,13 @@
       <label><input type="radio" name="status" [(ngModel)]="selectedAction" value="Maintenance"/> Maintenance</label>
     </div>
   </div>
-
+ 
   <div class="month-nav" *ngIf="selectedRoom">
     <button (click)="changeMonth(-1)">Prev</button>
     <span>{{ viewDate | date: 'MMMM yyyy' }}</span>
     <button (click)="changeMonth(1)">Next</button>
   </div>
-
+ 
   <div class="calendar" *ngIf="selectedRoom">
     <ng-container *ngFor="let d of daysInMonth">
       <div
@@ -60,9 +59,10 @@
       </div>
     </ng-container>
   </div>
-
+ 
   <div *ngIf="!selectedRoom" style="text-align: center; margin-top: 20px; color: #666">
     Please select a hotel and room to manage availability.
   </div>
 </div>
-
+ 
+ 

@@ -128,3 +128,98 @@
 
 .font-bold { font-weight: 700; }
 .capacity-info span { display: block; font-size: 12px; opacity: 0.8; }
+
+@media (max-width: 768px) {
+  /* 1. Header & Button Fixes */
+  .rm-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+
+  .actions {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .actions button, .actions .btn {
+    flex: 1;
+    justify-content: center;
+    white-space: nowrap;
+    padding: 10px;
+  }
+
+  /* 2. Table to Card Transformation */
+  .rooms thead {
+    display: none;
+  }
+
+  .rooms, 
+  .rooms tbody, 
+  .rooms tr, 
+  .rooms td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .rooms tr {
+    margin-bottom: 25px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border: 1px solid #eee;
+    overflow: hidden;
+  }
+
+  .rooms td {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; 
+    padding: 12px 15px;
+    border-bottom: 1px solid #f8f8f8;
+    min-height: 45px;
+  }
+
+  .rooms td > * {
+    text-align: right;
+    max-width: 60%; 
+    word-break: break-word; 
+    font-size: 14px;
+  }
+
+  .rooms td::before {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 11px;
+    color: var(--secondary-color);
+    opacity: 0.7;
+    flex-shrink: 0;
+    margin-right: 10px;
+    padding-top: 2px;
+  }
+
+  /* 3. Column Labels */
+  .rooms td:nth-of-type(1)::before { content: "Room Info"; }
+  .rooms td:nth-of-type(2)::before { content: "Type"; }
+  .rooms td:nth-of-type(3)::before { content: "Price"; }
+  .rooms td:nth-of-type(4)::before { content: "Capacity"; }
+  .rooms td:nth-of-type(5)::before { content: "Status"; }
+  .rooms td:nth-of-type(6)::before { content: "Actions"; }
+
+  /* 4. Action Buttons Fix */
+  .col-actions {
+    background: #fafafa;
+    border-bottom: none !important;
+    justify-content: center !important;
+    padding: 15px !important;
+  }
+
+  .icon-btn {
+    width: 42px;
+    height: 42px;
+    margin: 0 8px;
+  }
+}

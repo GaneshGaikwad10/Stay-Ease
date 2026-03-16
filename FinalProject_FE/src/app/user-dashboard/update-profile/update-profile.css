@@ -99,3 +99,57 @@ input:focus {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
+
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 20px 10px;
+  }
+
+  .profile-card {
+    padding: 20px;
+    border-radius: 0; 
+    box-shadow: none;
+  }
+
+  .profile-header h2 {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .profile-header p {
+    text-align: center;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .input-row {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .status-badge {
+    justify-content: center;
+  }
+
+  .profile-actions {
+    margin-top: 20px;
+  }
+
+  .btn-update-profile {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 400px) {
+  input {
+    padding: 14px 10px;
+    font-size: 16px; 
+  }
+
+  .field label {
+    font-size: 13px;
+  }
+}

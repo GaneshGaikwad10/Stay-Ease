@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { User } from '../shared/model/data.interface';
 import { UserService } from '../feature/services/user.service';
@@ -31,10 +30,10 @@ export class AdminDashboard implements OnInit {
     this.loadUsers();
   }
 
-  // Helper to refresh the list from the database
   loadUsers(): void {
     this.userService.getAllUsers().subscribe({
       next: (res) => {
+        // res.data contains the array of users from your Express controller
         this.userList = res.data; 
       },
       error: (err) => console.error('Error fetching users:', err)
@@ -50,7 +49,7 @@ export class AdminDashboard implements OnInit {
   }
 
 
- //  Update user status
+ // --- Update user status ---
  updateUserStatus(user: any, combinedValue: string) {
    let updateData: any = {};
    
@@ -58,6 +57,7 @@ export class AdminDashboard implements OnInit {
    if (combinedValue === 'inactive') {
      updateData = { isActive: false };
    } else {
+     //  Handle Activation and Role
      updateData = { 
        isActive: true, 
        role: combinedValue.toLowerCase() 
@@ -84,7 +84,7 @@ export class AdminDashboard implements OnInit {
     this.showDeleteModal = true;
   }
 
-  //  Delete user 
+  // --- Delete user ---
   deleteUser() {
     if (this.userToDelete) {
       const targetId = (this.userToDelete as any)._id || this.userToDelete.id;

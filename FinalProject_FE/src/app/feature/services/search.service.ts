@@ -21,4 +21,8 @@ export class SearchCriteriaService {
   searchHotels(criteria: any):Observable<any>{
     return this.http.post<any[]>(this.apiUrl, criteria);
   }
+
+  clearCriteria() {
+    this.criteria = null;
+  }
 }

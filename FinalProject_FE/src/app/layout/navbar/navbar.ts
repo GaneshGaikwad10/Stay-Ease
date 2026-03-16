@@ -5,6 +5,7 @@ import { UserService } from '../../feature/services/user.service';
 import { User } from '../../shared/model/data.interface';
 import { LoyaltyService } from '../../feature/services/loyaltyService';
 import { CommonModule } from '@angular/common';
+import { SearchCriteriaService } from '../../feature/services/search.service';
 
 @Component({
   selector: 'app-navbar',
@@ -18,21 +19,32 @@ export class Navbar {
   user: User | null = null;
   name: string = '';
   pointsBalance: number = 0;
-  role: string = '';   
+  role: string = '';
 
   constructor(
     private userService: UserService,
     private loyaltyService: LoyaltyService,
-    private router: Router
+    private router: Router,
+    private searcService: SearchCriteriaService
   ) { }
 
   // navbar.ts
   ngOnInit() {
     this.userId = this.userService.getLoggedUserId();
+    this.role = this.userService.getRole();
 
     if (this.userId) {
+
       this.userService.getProfile().subscribe({
         next: (response: any) => {
+
+          const serverRole = response.data.role;
+          if (serverRole !== this.role) {
+            alert('Session changed in another tab. Please login again.');
+            this.onLogout(); // This clears the session and redirects
+            return;
+          }
+
           if (response && response.data) {
             const userData = response.data;
             this.role = userData.role;
@@ -59,6 +71,9 @@ export class Navbar {
       next: () => {
         this.name = '';
         this.role = '';
+        this.userId = '';
+        this.user = null;
+        this.searcService.clearCriteria();
         this.router.navigate(['/login']);
       },
       error: (err) => {

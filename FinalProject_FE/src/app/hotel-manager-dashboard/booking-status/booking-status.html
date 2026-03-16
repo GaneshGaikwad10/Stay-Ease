@@ -42,12 +42,12 @@
           <td>
             <div class="action-buttons">
               <button class="btn-confirm" [class.active]="b.status === 'Confirmed'" (click)="confirmStatus(b._id!)"
-                [disabled]="b.status === 'Completed' || b.status === 'Confirmed'|| b.status==='Cancelled'">
+                [disabled]="b.status === 'Completed' || b.status === 'Confirmed'|| b.status==='Cancelled' || b.status == 'Rejected' ">
                 Confirm
               </button>
 
               <button class="btn-reject" [class.active]="b.status === 'Rejected'" (click)="rejectStatus(b._id!)"
-                [disabled]="b.status === 'Completed' || b.status === 'Cancelled'">
+                [disabled]="b.status === 'Completed' || b.status === 'Cancelled' || b.status === 'Rejected'">
                 Reject
               </button>
             </div>

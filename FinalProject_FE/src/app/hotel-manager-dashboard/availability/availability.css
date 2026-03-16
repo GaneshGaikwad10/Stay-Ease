@@ -154,3 +154,63 @@ select:disabled {
   background: rgba(255, 255, 255, 0.4);
   color: var(--secondary-color);
 }
+
+@media (max-width: 768px) {
+  .container {
+    margin: 1rem;
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .row.horizontal {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .status-options {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .calendar {
+    grid-template-columns: repeat(4, 1fr); /* Reduce columns for tablet */
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .calendar {
+    grid-template-columns: repeat(3, 1fr); /* Further reduce columns for phone */
+  }
+
+  .day {
+    padding: 12px 5px;
+  }
+
+  .day strong {
+    font-size: 14px;
+  }
+
+  .month-nav {
+    gap: 10px;
+  }
+
+  .month-nav span {
+    font-size: 16px;
+  }
+
+  .month-nav button {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 350px) {
+  .calendar {
+    grid-template-columns: repeat(2, 1fr); /* Maximum readability on tiny screens */
+  }
+}

@@ -6,6 +6,9 @@ import { FormsModule } from '@angular/forms';
 import { BookingService } from '../../feature/services/booking.service copy';
 import { UserService } from '../../feature/services/user.service';
 import { Booking } from '../../shared/model/data.interface'; // Ensure correct path
+import { LoyaltyService } from '../../feature/services/loyaltyService';
+import { switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-booking-status',
@@ -19,7 +22,8 @@ export class BookingStatus implements OnInit {
 
   constructor(
     private bookingSvc: BookingService,
-    private userSvc: UserService
+    private userSvc: UserService,
+    private loyaltySvc: LoyaltyService
   ) { }
 
   ngOnInit(): void {
@@ -59,13 +63,32 @@ export class BookingStatus implements OnInit {
     });
   }
 
+
   rejectStatus(id: string): void {
+
+
     if (confirm('Are you sure you want to reject this booking?')) {
-      this.bookingSvc.rejectBooking(id).subscribe({
+      this.bookingSvc.rejectBooking(id).pipe(
+        // After rejecting, fetch the booking details
+        switchMap(() => this.bookingSvc.getBookingById(id)),
+        // After getting details, add the points if necessary
+        switchMap((booking) => {
+          const refundedPoints = booking.discount || 0;
+          if (refundedPoints > 0) {
+            return this.loyaltySvc.addPoints(booking.userId, refundedPoints);
+          }
+          // If no points to refund, just return an "empty" observable to keep the chain alive
+          return of(null);
+        })
+      ).subscribe({
         next: () => {
+          console.log('Process complete');
           this.loadManagerBookings();
         },
-        error: (err) => alert('Error rejecting booking')
+        error: (err) => {
+          console.error('Error in sequence:', err);
+          alert('Failed to complete the rejection/refund process');
+        }
       });
     }
   }
