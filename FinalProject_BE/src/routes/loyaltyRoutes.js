@@ -4,7 +4,7 @@ const { getPoints, updatePoints} = require('../controllers/loyaltyController');
 const {verifyToken, authorizeRoles} = require('../middleware/authMiddleware');
 
 router.get('/:id',verifyToken, authorizeRoles('user'), getPoints);
-router.patch('/:id', verifyToken, authorizeRoles('user'),updatePoints);
+router.patch('/:id', verifyToken, authorizeRoles('user', 'hotel manager'),updatePoints);
 
 
 module.exports = router;

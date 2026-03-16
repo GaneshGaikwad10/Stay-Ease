@@ -14,12 +14,10 @@ const registerUser = asyncHandler(async (req, res) => {
     if (existingUser) {
         return res.status(400).json({ success: false, message: "User already exists!" });
     }
- 
-    // Create the user object from the body
+
     const newUser = new User(req.body);
     newUser.role = normalizedRole;
 
-    // Having isActive to false only for managers
     if (normalizedRole === 'hotel manager') {
         newUser.isActive = false;
     } else {
@@ -56,7 +54,7 @@ const loginhandler = asyncHandler(async (req, res) => {
 
     // Cookie Approach: Set Secure Cookie options
     const cookieOptions = {
-        httpOnly: process.env.NODE_ENV === 'production', // Prevents XSS attacks
+        httpOnly: true, // Prevents XSS attacks
         expires: new Date(Date.now() + 60 * 60 * 1000), // 1 hour
         secure: process.env.NODE_ENV === 'production', // Use secure in production
         sameSite: 'Strict' // CSRF protection

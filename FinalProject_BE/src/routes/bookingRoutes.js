@@ -12,7 +12,7 @@ const {createBooking, getBookingsByuserId, getBookingsByhotelId, updateBookingSt
 router.post('/',verifyToken,authorizeRoles('user'),createBooking);
 router.get('/user/:userId',verifyToken, authorizeRoles('user'), getBookingsByuserId);  //by userId
 router.get('/hotel/:hotelId',verifyToken, authorizeRoles('user'),getBookingsByhotelId); //by hotelId
-router.get('/:bookingId', verifyToken, authorizeRoles('user'),getBookingsBybookingId); //by bookingId
+router.get('/:bookingId', verifyToken, authorizeRoles('user', 'hotel manager'),getBookingsBybookingId); //by bookingId
 router.patch('/status/:bookingId',verifyToken, authorizeRoles('user', 'hotel manager'),updateBookingStatus);
 router.get('/manager/:managerId', verifyToken, authorizeRoles('user', 'hotel manager'),getBookingsByManager);
 

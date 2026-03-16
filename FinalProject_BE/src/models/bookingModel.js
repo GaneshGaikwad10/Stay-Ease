@@ -10,7 +10,6 @@ const bookingRoomSchema = new mongoose.Schema({
 
 
 const bookingSchema = new mongoose.Schema({
-  // bookingId: { type: String, required: true, unique: true, trim: true},
   userId: { type: String, required: true, trim: true },
   hotelId: { type: String, required: true, trim: true},
   rooms: { type: [bookingRoomSchema], required: true },
@@ -24,7 +23,8 @@ const bookingSchema = new mongoose.Schema({
     default: 'Pending',
     trim: true
   },
-  paymentId: { type: String, default: null, trim: true }
+  paymentId: { type: String, default: null, trim: true },
+  discount: {type:Number, default:0}
 }, { timestamps: true });
 
 

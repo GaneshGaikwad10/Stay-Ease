@@ -18,9 +18,7 @@ exports.searchHotel = async (req, res, next) => {
                     status: "Available",
                     capacityAdults: { $gte: Number(adults) },
                     capacityChildren: { $gte: Number(children) },
-                    unavailableDates: {
-                        $not: { $in: rangeRegex }
-                    }
+                    unavailableDates: { $not: { $in: rangeRegex }}
                 }
             }
         });

@@ -37,18 +37,17 @@ exports.addReview = async (req, res, next) => {
     await hotel.save();
 
     // Award loyalty points directly to user
-    const user = await User.findById(userId);
-    if (!user) return res.status(404).json({ message: "User not found" });
+    // const user = await User.findById(userId);
+    // if (!user) return res.status(404).json({ message: "User not found" });
 
-    user.points += 50;
-    await user.save();
+    // user.points += 50;
+    // await user.save();
 
     res.status(201).json({
       message: "Review added successfully",
       review: { userId, userName, reviewText, rating },
       updatedHotelRating: hotel.rating,
       pointsEarned: 50,
-      totalPoints: user.points
     });
   } catch (err) {
     next(err);

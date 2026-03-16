@@ -3,12 +3,13 @@ const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const helmet = require('helmet');
+ 
 
 require('dotenv').config();
 
 //Routers
 const userRoutes = require('./src/routes/userRoutes');
-const hotelRegister = require('./src/routes/hotelRegisterRoutes');
 const hotelRoutes = require('./src/routes/hotelRoutes');
 const authRoutes = require('./src/routes/authRoutes');
 const adminRoutes = require('./src/routes/adminRoutes');
@@ -33,6 +34,23 @@ const corsOptions = {
     optionsSuccessStatus: 200        
 };
 
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "https://trustedscripts.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      imgSrc: ["'self'", "data:", "http://localhost:3000"], 
+      connectSrc: ["'self'", "http://localhost:3000"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+    },
+
+  },
+  crossOriginResourcePolicy: {policy: "cross-origin"}
+}));
+
+
+
 app.use(cors(corsOptions)); // Apply CORS first
 
 app.use('/uploads', express.static('uploads')); //for uploading the file
@@ -48,7 +66,6 @@ app.use('/api/auth', authRoutes);   // For Login, Register, Logout
 
 //Protected Routes
 app.use('/api/booking', bookingRoutes);
-app.use('/api/hotel/register', hotelRegister);
 app.use('/api/hotel',hotelRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/admin', adminRoutes); // For Admin User Management

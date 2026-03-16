@@ -6,7 +6,7 @@ const revokedTokenSchema = new mongoose.Schema({
     createdAt: { 
         type: Date, 
         default: Date.now, 
-        expires: 3600 
+        expires: 3720 
     }
 });
 module.exports = mongoose.model('RevokedToken', revokedTokenSchema);
